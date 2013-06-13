@@ -18,33 +18,33 @@ import javax.swing.border.BevelBorder;
 
 /**
  * @author Luuk Scholten & Thom Wiggers
- *
+ * 
  */
 public class StatusbarPanel extends JPanel {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 6547918643843952081L;
+	private static final long serialVersionUID = 6547918643843952081L;
 
-    private final JLabel statusLabel = new JLabel();
+	private final JLabel statusLabel = new JLabel();
 
-    private static final String prefixMode = "Mode: ";
+	private static final String prefixMode = "Mode: ";
 
-    /**
+	/**
      * 
      */
-    public StatusbarPanel(final int width) {
-	setBorder(new BevelBorder(BevelBorder.LOWERED));
-	setPreferredSize(new Dimension(width, 16));
-	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-	setText("None");
-	statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-	this.add(statusLabel);
-    }
+	public StatusbarPanel(final int width) {
+		setBorder(new BevelBorder(BevelBorder.LOWERED));
+		setPreferredSize(new Dimension(width, 16));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setText("None");
+		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		this.add(statusLabel);
+	}
 
-    public void setText(final String msg) {
-	statusLabel.setText(prefixMode + msg);
-    }
+	public void setText(final String msg) {
+		statusLabel.setText(prefixMode + msg);
+	}
 
 }

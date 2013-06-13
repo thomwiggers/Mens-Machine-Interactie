@@ -1,4 +1,4 @@
-package nl.PAINt;
+package nl.PAINt.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Shape {
+public abstract class RectangularShape implements Shape{
 	protected double x, y, width, height;
 	protected boolean selectionBox;
 
@@ -18,7 +18,7 @@ public abstract class Shape {
 	private Point    xyLock = null;
 	private Point    whLock = null;
 
-	public Shape(final double x, final double y, final double width, final double height) {
+	public RectangularShape(final double x, final double y, final double width, final double height) {
 		selectionBox = false;
 		setFrame(x, y, width, height);
 	}

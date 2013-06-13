@@ -9,7 +9,7 @@
 package nl.PAINt;
 
 public enum PanelMode {
-    DELETE, MOVE, RESIZE, RECT, RECT_FILLED, ELL, ELL_FILLED;
+    DELETE, MOVE, RESIZE, RECT, TRIANGLE, ELL, ELL_FILLED;
 
     @Override
     public String toString() {
@@ -24,7 +24,7 @@ public enum PanelMode {
 	    return "Move mode";
 	case RECT:
 	    return "Rectangle mode";
-	case RECT_FILLED:
+	case TRIANGLE:
 	    return "Filled rectangle mode";
 	case RESIZE:
 	    return "Resize mode";

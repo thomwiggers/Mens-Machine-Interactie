@@ -1,4 +1,4 @@
-package nl.PAINt;
+package nl.PAINt.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle extends Shape {
+public class Rectangle extends RectangularShape {
 	private boolean isFilled;
 	private Rectangle2D rect2d;
 
