@@ -193,15 +193,6 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
-			if (mode == PanelMode.DELETE) {
-				for (final Shape shape : displayList) {
-					if (shape.checkHit(arg0.getPoint())) {
-						displayList.remove(shape);
-						break;
-					}
-				}
-			}
-			CanvasPanel.this.repaint();
 
 		}
 
@@ -230,6 +221,18 @@ public class CanvasPanel extends JPanel {
 					}
 				}
 			}
+			
+			if (mode == PanelMode.DELETE) {
+				for(int i = displayList.size() - 1; i >= 0; i--){
+					Shape shape = displayList.get(i);
+					if (shape.checkHit(arg0.getPoint())) {
+						displayList.remove(shape);
+						break;
+					}
+				}
+				
+			}
+			CanvasPanel.this.repaint();
 
 		}
 
@@ -304,7 +307,11 @@ public class CanvasPanel extends JPanel {
 					}
 				}
 			}
-
+			
+			if(selected == null){
+				return;
+			}
+			
 			// meteen operaties uitvoeren
 			if (selected.lockCorner(arg0.getPoint())) {
 				startPoint = arg0.getPoint();
