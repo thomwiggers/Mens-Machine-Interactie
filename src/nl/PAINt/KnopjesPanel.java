@@ -31,11 +31,14 @@ public class KnopjesPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = 4988132356531200790L;
+    private final CanvasPanel canvas;
 
     /**
      * constructor doet dingen
      */
-    public KnopjesPanel() {
+    public KnopjesPanel(CanvasPanel theCanvas) {
+	this.canvas = theCanvas;
+
 	this.setPreferredSize(new Dimension(80, 90));
 	this.setLayout(new GridLayout(0, 2));
 	setBackground(Color.blue);

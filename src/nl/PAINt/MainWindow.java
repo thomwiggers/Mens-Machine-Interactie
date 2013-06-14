@@ -16,8 +16,8 @@ public class MainWindow extends JFrame {
     private final KnopjesPanel knopjes;
 
     public MainWindow() {
-	knopjes = new KnopjesPanel();
 	canvas = new CanvasPanel();
+	knopjes = new KnopjesPanel(canvas);
 	super.add(knopjes, BorderLayout.WEST);
 	super.add(canvas);
 
