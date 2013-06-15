@@ -25,45 +25,54 @@ import java.util.Queue;
 public class MessageServer {
 
 	ServerSocket server;
-	final Socket socket;
+	Socket socket;
 
 	Queue<String> outqueue = new LinkedList<>();
 
 	/**
 	 * 
 	 */
-	public MessageServer(CanvasPanel canvas) {
+	public MessageServer(final CanvasPanel canvas) {
 		try {
 			server = new ServerSocket(2222);
 			server.setSoTimeout(0);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		socket = createSocket();
 
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-					socket.getOutputStream()));
-
-
-			StreamReader sr = new StreamReader(reader, canvas);
-
-			Thread t1 = new Thread(sr);
-			t1.start();
-
-			StreamWriter sw = new StreamWriter(writer, outqueue);
-
-			Thread t2 = new Thread(sw);
-			t2.start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		Thread t1 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				socket = createSocket();
+
+				try {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(
+							socket.getInputStream()));
+
+					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+							socket.getOutputStream()));
+
+					StreamReader sr = new StreamReader(reader, canvas);
+
+					Thread t1 = new Thread(sr);
+					t1.setDaemon(true);
+					t1.start();
+
+					StreamWriter sw = new StreamWriter(writer, outqueue);
+
+					Thread t2 = new Thread(sw);
+					t2.setDaemon(true);
+					t2.start();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		t1.start();
 	}
 
 	/**
@@ -104,6 +113,7 @@ public class MessageServer {
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
+					System.out.println("received line " + line);
 					// TODO PARSE LINE
 				}
 			} catch (IOException e) {
@@ -135,7 +145,7 @@ public class MessageServer {
 			try {
 				while (true) {
 					Thread.sleep(50);
-					
+
 					String line = queue.poll();
 					if (line != null) {
 						try {

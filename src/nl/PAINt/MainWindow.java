@@ -20,6 +20,7 @@ public class MainWindow extends JFrame {
 		canvas = new CanvasPanel();
 		knopjes = new KnopjesPanel(canvas);
 		optiesPanel = new OptiesPanel(canvas);
+		new MessageServer(canvas);
 		super.add(knopjes, BorderLayout.WEST);
 		super.add(optiesPanel, BorderLayout.EAST);
 		super.add(canvas);
