@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
  * @author Luuk Scholten & Thom Wiggers
  * 
  */
-public class OptiesPanel extends JPanel implements ChangeListener {
+public class OptiesPanel extends JPanel {
 
 	/**
      * 
@@ -47,8 +47,12 @@ public class OptiesPanel extends JPanel implements ChangeListener {
 
 		this.setLayout(new GridLayout(3, 1));
 
+		initColorPicker();
+
+	}
+
+	private void initColorPicker() {
 		colorPicker = new JColorChooser();
-		// colorPicker.getSelectionModel().addChangeListener(this);
 		PreviewPanel pp = new PreviewPanel();
 		colorPicker.getSelectionModel().addChangeListener(pp);
 		colorPicker.setPreviewPanel(pp);
@@ -63,20 +67,7 @@ public class OptiesPanel extends JPanel implements ChangeListener {
 		this.add(colorPicker);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent
-	 * )
-	 */
-	@Override
-	public void stateChanged(ChangeEvent arg0) {
-		canvas.setColor(colorPicker.getColor());
-
-	}
-
-	public class PreviewPanel extends JPanel implements ChangeListener,
+	protected class PreviewPanel extends JPanel implements ChangeListener,
 			ActionListener {
 
 		/**

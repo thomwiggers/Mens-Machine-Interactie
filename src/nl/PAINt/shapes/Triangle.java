@@ -54,7 +54,7 @@ public class Triangle implements Shape {
 				BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f));
 		g2d.drawPolygon(p);
 
-		g2d.setPaint(color);
+		g2d.setPaint(Color.blue);
 		g2d.setStroke(new BasicStroke(0.0f));
 
 		Rectangle2D r2d = new Rectangle2D.Double(p1.x - 5, p1.y - 5, 10, 10);
