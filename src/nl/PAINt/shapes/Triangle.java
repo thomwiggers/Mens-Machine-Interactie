@@ -12,6 +12,7 @@ public class Triangle implements Shape {
 	private boolean selected;
 	private Point lockedCorner;
 	private Color color;
+	private Color lineColor;
 
 	public Triangle(Point p1, Point p2, Point p3) {
 		this.p1 = p1;
@@ -135,6 +136,16 @@ public class Triangle implements Shape {
 	public void setColor(Color color) {
 		this.color = color;
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color color) {
+		this.lineColor = color;
 	}
 
 }

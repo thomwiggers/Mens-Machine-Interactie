@@ -10,6 +10,7 @@ public abstract class RectangularShape implements Shape {
 	protected double x, y, width, height;
 	protected boolean selectionBox;
 	protected Color color = Color.black;
+	protected Color lineColor = Color.black;
 
 	/**
 	 * @param color
@@ -26,6 +27,7 @@ public abstract class RectangularShape implements Shape {
 	private CornerLock lockedCorner = null;
 	private Point xyLock = null;
 	private Point whLock = null;
+
 
 	public RectangularShape(final double x, final double y, final double width,
 			final double height) {
@@ -142,5 +144,9 @@ public abstract class RectangularShape implements Shape {
 	}
 
 	public abstract boolean checkHit(Point point);
+
+	public void setLineColor(Color color) {
+		this.lineColor = color;
+	}
 
 }

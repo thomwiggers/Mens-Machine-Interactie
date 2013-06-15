@@ -32,6 +32,7 @@ public class CanvasPanel extends JPanel {
 	private final ArrayList<Shape> displayList;
 	private PanelMode mode;
 	private Color color = Color.BLACK;
+	private Color lineColor = Color.black;
 
 	public CanvasPanel() {
 		setPreferredSize(new Dimension(1280, 900));
@@ -131,6 +132,9 @@ public class CanvasPanel extends JPanel {
 				currentlyDrawing = new Rectangle(startPoint.x, startPoint.y, 0, 0,
 						false);
 				break;
+			case RECT_FILLED:
+				currentlyDrawing = new Rectangle(startPoint.x, startPoint.y, 0, 0, true);
+				break;
 			case TRIANGLE:
 				currentlyDrawing = new Triangle(arg0.getPoint(), arg0.getPoint(),
 						arg0.getPoint());
@@ -143,6 +147,7 @@ public class CanvasPanel extends JPanel {
 						+ " not supported");
 			}
 			currentlyDrawing.setColor(color);
+			currentlyDrawing.setLineColor(lineColor);
 
 			displayList.add(currentlyDrawing);
 			currentlyDrawing.setSelectionBox(true);
@@ -272,7 +277,7 @@ public class CanvasPanel extends JPanel {
 	}
 
 	private class ResizeListener implements MouseInputListener {
-		private Shape selected = null;
+		protected Shape selected = null;
 		private Point startPoint;
 		private Point movePoint;
 
@@ -367,6 +372,23 @@ public class CanvasPanel extends JPanel {
 	 */
 	public void setColor(Color color) {
 		this.color = color;
+		if (resizeListener instanceof ResizeListener) {
+			if (((ResizeListener) resizeListener).selected != null) {
+				((ResizeListener) resizeListener).selected.setColor(color);
+			}
+		}
+	}
+
+	/**
+	 * @param color2
+	 */
+	public void setLineColor(Color color) {
+		this.lineColor = color;
+		if (resizeListener instanceof ResizeListener) {
+			if (((ResizeListener) resizeListener).selected != null) {
+				((ResizeListener) resizeListener).selected.setLineColor(color);
+			}
+		}
 
 	}
 }

@@ -21,4 +21,9 @@ public interface Shape {
 	 * @param color
 	 */
 	public void setColor(Color color);
+
+	/**
+	 * @param color
+	 */
+	public void setLineColor(Color color);
 }

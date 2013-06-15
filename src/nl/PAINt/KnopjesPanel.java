@@ -142,7 +142,7 @@ public class KnopjesPanel extends JPanel implements ActionListener {
 			canvas.setMode(PanelMode.RECT);
 			break;
 		case VIERKANT_TEKENEN_FILLED:
-			canvas.setMode(PanelMode.RECT);
+			canvas.setMode(PanelMode.RECT_FILLED);
 			break;
 		default:
 			break;

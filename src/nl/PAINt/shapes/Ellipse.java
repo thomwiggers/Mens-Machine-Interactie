@@ -13,6 +13,8 @@ public class Ellipse extends RectangularShape {
 
 	Ellipse2D el2d;
 
+	private Color lineColor;
+
 	public Ellipse(final double x, final double y, final double width,
 			final double height, final boolean isFilled) {
 		super(x, y, width, height);
@@ -52,6 +54,17 @@ public class Ellipse extends RectangularShape {
 	@Override
 	public void setColor(Color color) {
 		this.color = color;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color color) {
+		this.lineColor = color;
 
 	}
 
