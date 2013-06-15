@@ -47,7 +47,12 @@ public class MessageServer {
 			@Override
 			public void run() {
 				while (true) {
-					socket = createSocket();
+					try {
+						socket = server.accept();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					try {
 						BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -74,25 +79,8 @@ public class MessageServer {
 				}
 			}
 		});
+		t1.setDaemon(true);
 		t1.start();
-	}
-
-	/**
-	 * Anders stomme problemen met final.
-	 * 
-	 * @see http://stackoverflow.com/questions/5858250
-	 * 
-	 * @return Accept socket
-	 */
-	public Socket createSocket() {
-		try {
-			return server.accept();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return socket;
-
 	}
 
 	class StreamReader implements Runnable {
