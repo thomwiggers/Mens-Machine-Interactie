@@ -28,12 +28,12 @@ public class WaitPanel extends JPanel {
 		
 		this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-		JLabel welkom = new JLabel("Welkom Subject #1, start deze applicatie via de Nexus met ip::");
+		JLabel welkom = new JLabel("Welkom Subject #1, start deze applicatie via de Nexus met ip ");
 		welkom.setFont(new Font("Sans Serif", Font.PLAIN, 40));
 
 		String local_addr = this.getLocalV4Address();
 		JLabel host = new JLabel(local_addr);
-		host.setFont(new Font("Sans Serif", Font.PLAIN, 30));
+		host.setFont(new Font("Sans Serif", Font.PLAIN, 40));
 		
 		
 		this.add(welkom, gbc);
