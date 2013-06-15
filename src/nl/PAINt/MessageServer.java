@@ -46,29 +46,31 @@ public class MessageServer {
 
 			@Override
 			public void run() {
-				socket = createSocket();
+				while (true) {
+					socket = createSocket();
 
-				try {
-					BufferedReader reader = new BufferedReader(new InputStreamReader(
-							socket.getInputStream()));
+					try {
+						BufferedReader reader = new BufferedReader(new InputStreamReader(
+								socket.getInputStream()));
 
-					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-							socket.getOutputStream()));
+						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+								socket.getOutputStream()));
 
-					StreamReader sr = new StreamReader(reader, canvas);
+						StreamReader sr = new StreamReader(reader, canvas);
 
-					Thread t1 = new Thread(sr);
-					t1.setDaemon(true);
-					t1.start();
+						Thread t1 = new Thread(sr);
+						t1.setDaemon(true);
+						t1.start();
 
-					StreamWriter sw = new StreamWriter(writer, outqueue);
+						StreamWriter sw = new StreamWriter(writer, outqueue);
 
-					Thread t2 = new Thread(sw);
-					t2.setDaemon(true);
-					t2.start();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						Thread t2 = new Thread(sw);
+						t2.setDaemon(true);
+						t2.start();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		});
