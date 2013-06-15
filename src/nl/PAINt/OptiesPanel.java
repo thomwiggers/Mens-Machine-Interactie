@@ -55,6 +55,7 @@ public class OptiesPanel extends JPanel implements ChangeListener {
 			} else
 				colorPicker.removeChooserPanel(panel);
 		}
+		colorPicker.setPreviewPanel(new JPanel());
 		System.out.println(Arrays.toString(colorPicker.getChooserPanels()));
 		this.add(colorPicker);
 	}
