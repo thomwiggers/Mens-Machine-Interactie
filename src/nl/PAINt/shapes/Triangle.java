@@ -13,12 +13,14 @@ public class Triangle implements Shape {
 	private Point lockedCorner;
 	private Color color;
 	private Color lineColor;
+	private boolean isFilled;
 
-	public Triangle(Point p1, Point p2, Point p3) {
+	public Triangle(Point p1, Point p2, Point p3, boolean filled) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
 		this.selected = false;
+		this.isFilled = filled;
 	}
 
 	@Override
@@ -28,7 +30,11 @@ public class Triangle implements Shape {
 
 		Polygon p = new Polygon(x, y, 3);
 
-		g2d.setPaint(Color.GREEN);
+		if (isFilled) {
+			g2d.setPaint(color);
+			g2d.fill(p);
+		}
+		g2d.setPaint(lineColor);
 		g2d.setStroke(new BasicStroke(3.0f));
 		g2d.drawPolygon(p);
 

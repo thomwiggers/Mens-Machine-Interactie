@@ -137,7 +137,7 @@ public class CanvasPanel extends JPanel {
 				break;
 			case TRIANGLE:
 				currentlyDrawing = new Triangle(arg0.getPoint(), arg0.getPoint(),
-						arg0.getPoint());
+						arg0.getPoint(), false);
 				break;
 			case DELETE:
 			case MOVE:
@@ -375,6 +375,7 @@ public class CanvasPanel extends JPanel {
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
 				((ResizeListener) resizeListener).selected.setColor(color);
+				repaint();
 			}
 		}
 	}
@@ -387,6 +388,7 @@ public class CanvasPanel extends JPanel {
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
 				((ResizeListener) resizeListener).selected.setLineColor(color);
+				repaint();
 			}
 		}
 

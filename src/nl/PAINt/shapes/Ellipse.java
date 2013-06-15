@@ -27,14 +27,15 @@ public class Ellipse extends RectangularShape {
 	public void draw(final Graphics2D g2d) {
 		el2d.setFrame(x, y, width, height);
 
-		g2d.setPaint(color);
+
 
 		if (isFilled) {
+			g2d.setPaint(color);
 			g2d.fill(el2d);
-		} else {
-			g2d.setStroke(new BasicStroke(3.0f));
-			g2d.draw(el2d);
 		}
+		g2d.setPaint(lineColor);
+		g2d.setStroke(new BasicStroke(3.0f));
+		g2d.draw(el2d);
 
 		if (selectionBox) {
 			drawSelectionBox(g2d);
