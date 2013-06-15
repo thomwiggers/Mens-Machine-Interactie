@@ -32,7 +32,7 @@ public class MessageServer {
 	/**
 	 * 
 	 */
-	public MessageServer(final CanvasPanel canvas) {
+	public MessageServer(final MainWindow window) {
 		try {
 			server = new ServerSocket(2222);
 			server.setSoTimeout(0);
@@ -48,7 +48,7 @@ public class MessageServer {
 			public void run() {
 				while (true) {
 					socket = createSocket();
-
+					System.out.println(socket.getInetAddress());
 					try {
 						BufferedReader reader = new BufferedReader(new InputStreamReader(
 								socket.getInputStream()));
@@ -56,7 +56,7 @@ public class MessageServer {
 						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 								socket.getOutputStream()));
 
-						StreamReader sr = new StreamReader(reader, canvas);
+						StreamReader sr = new StreamReader(reader, window);
 
 						Thread t1 = new Thread(sr);
 						t1.setDaemon(true);
@@ -98,11 +98,11 @@ public class MessageServer {
 	class StreamReader implements Runnable {
 
 		private BufferedReader reader = null;
-		private CanvasPanel canvas = null;
+		private MainWindow window = null;
 
-		public StreamReader(BufferedReader inputReader, CanvasPanel canvas) {
+		public StreamReader(BufferedReader inputReader, MainWindow window) {
 			reader = inputReader;
-			this.canvas = canvas;
+			this.window = window;
 		}
 
 		/*
@@ -116,7 +116,9 @@ public class MessageServer {
 			try {
 				while ((line = reader.readLine()) != null) {
 					System.out.println("received line " + line);
-					// TODO PARSE LINE
+					if(line.equals("start")){
+						window.connected();
+					}
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

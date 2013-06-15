@@ -16,29 +16,33 @@ public class MainWindow extends JFrame {
 	private final StatusbarPanel statusbar;
 	private final KnopjesPanel knopjes;
 	private OptiesPanel optiesPanel;
+	WaitPanel wpanel;
 
 	public MainWindow() {
+		new MessageServer(this);
+		
+		wpanel = new WaitPanel();
+		super.add(wpanel);
+		
 		this.canvas = new CanvasPanel();
 		this.knopjes = new KnopjesPanel(canvas);
 		this.statusbar = new StatusbarPanel(getWidth());
-		
-		WaitPanel panel = new WaitPanel();
-		super.add(panel);
-		
+		this.optiesPanel = new OptiesPanel(canvas);
 
 	}
 	
-	private void connected(){
-		optiesPanel = new OptiesPanel(canvas);
-		new MessageServer(canvas);
+	public void connected(){
+		super.remove(wpanel);
 		super.add(knopjes, BorderLayout.WEST);
 		super.add(optiesPanel, BorderLayout.EAST);
 		super.add(canvas);
-
-		initMenus();
-
+		super.add(statusbar, BorderLayout.SOUTH);
 		
-		this.add(statusbar, BorderLayout.SOUTH);
+		initMenus();
+		
+		super.invalidate();
+		super.validate();
+		super.repaint();
 	}
 
 	private void initMenus() {
