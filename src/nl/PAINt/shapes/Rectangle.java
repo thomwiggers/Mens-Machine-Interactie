@@ -10,7 +10,10 @@ public class Rectangle extends RectangularShape {
 	private boolean isFilled;
 	private Rectangle2D rect2d;
 
-	public Rectangle(double x, double y, double width, double height, boolean isFilled) {
+	private Color color;
+
+	public Rectangle(double x, double y, double width, double height,
+			boolean isFilled) {
 		super(x, y, width, height);
 		this.isFilled = isFilled;
 		this.rect2d = new Rectangle2D.Double(x, y, width, height);
@@ -19,25 +22,35 @@ public class Rectangle extends RectangularShape {
 	@Override
 	public void draw(Graphics2D g2d) {
 		rect2d.setFrame(x, y, width, height);
-		
-		g2d.setPaint(Color.RED);
-		
-		if(this.isFilled){
+
+		g2d.setPaint(color);
+
+		if (this.isFilled) {
 			g2d.fill(rect2d);
-		}else{
+		} else {
 			g2d.setStroke(new BasicStroke(3.0f));
 			g2d.draw(rect2d);
 		}
 
-		if(this.selectionBox){
+		if (this.selectionBox) {
 			this.drawSelectionBox(g2d);
 		}
 	}
-	
 
 	@Override
 	public boolean checkHit(Point point) {
 		return this.rect2d.contains(point);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setColor(java.awt.Color)
+	 */
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
+
 	}
 
 }

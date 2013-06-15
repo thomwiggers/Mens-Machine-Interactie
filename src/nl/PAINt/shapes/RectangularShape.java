@@ -6,26 +6,37 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-public abstract class RectangularShape implements Shape{
+public abstract class RectangularShape implements Shape {
 	protected double x, y, width, height;
 	protected boolean selectionBox;
+	protected Color color = Color.black;
+
+	/**
+	 * @param color
+	 *          the color to set
+	 */
+	public void setColor(Color color) {
+		this.color = color;
+	}
 
 	private enum CornerLock {
 		TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT
 	};
 
 	private CornerLock lockedCorner = null;
-	private Point    xyLock = null;
-	private Point    whLock = null;
+	private Point xyLock = null;
+	private Point whLock = null;
 
-	public RectangularShape(final double x, final double y, final double width, final double height) {
+	public RectangularShape(final double x, final double y, final double width,
+			final double height) {
 		selectionBox = false;
 		setFrame(x, y, width, height);
 	}
 
 	public abstract void draw(Graphics2D g2d);
 
-	public void setFrame(final double x, final double y, final double width, final double height) {
+	public void setFrame(final double x, final double y, final double width,
+			final double height) {
 		this.x = x;
 		this.y = y;
 
@@ -73,7 +84,7 @@ public abstract class RectangularShape implements Shape{
 	}
 
 	public boolean lockCorner(final Point p) {
-		xyLock = new Point((int)x, (int)y);
+		xyLock = new Point((int) x, (int) y);
 		whLock = new Point((int) width, (int) height);
 		if (p.x >= x - 5 && p.x <= x + 5 && p.y >= y - 5 && p.y <= y + 5) {
 			lockedCorner = CornerLock.TOPLEFT;
@@ -89,8 +100,8 @@ public abstract class RectangularShape implements Shape{
 			lockedCorner = CornerLock.BOTTOMLEFT;
 			return true;
 		}
-		if (p.x >= x - 5 + width && p.x <= x + 5 + width
-				&& p.y >= y - 5 + height && p.y <= y + 5 + height) {
+		if (p.x >= x - 5 + width && p.x <= x + 5 + width && p.y >= y - 5 + height
+				&& p.y <= y + 5 + height) {
 			lockedCorner = CornerLock.BOTTOMRIGHT;
 			return true;
 		}
@@ -100,20 +111,23 @@ public abstract class RectangularShape implements Shape{
 
 	public void setFrameFromCorner(final Point start, final Point current) {
 		if (lockedCorner == null)
-		    return;
+			return;
 
 		switch (lockedCorner) {
 		case BOTTOMLEFT:
-			setFrame(current.x, xyLock.y, whLock.x - (current.x - xyLock.x ), current.y - xyLock.y);
+			setFrame(current.x, xyLock.y, whLock.x - (current.x - xyLock.x),
+					current.y - xyLock.y);
 			break;
 		case BOTTOMRIGHT:
 			setFrame(xyLock.x, xyLock.y, current.x - xyLock.x, current.y - xyLock.y);
 			break;
 		case TOPLEFT:
-			setFrame(current.x, current.y, whLock.x -(current.x - xyLock.x) ,  whLock.y -(current.y - xyLock.y));
+			setFrame(current.x, current.y, whLock.x - (current.x - xyLock.x),
+					whLock.y - (current.y - xyLock.y));
 			break;
 		case TOPRIGHT:
-			setFrame(xyLock.x, current.y, current.x - xyLock.x, whLock.y - (current.y - xyLock.y));
+			setFrame(xyLock.x, current.y, current.x - xyLock.x, whLock.y
+					- (current.y - xyLock.y));
 			break;
 		}
 

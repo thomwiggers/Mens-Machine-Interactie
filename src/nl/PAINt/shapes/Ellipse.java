@@ -8,6 +8,9 @@ import java.awt.geom.Ellipse2D;
 
 public class Ellipse extends RectangularShape {
 	private final boolean isFilled;
+
+	private Color color;
+
 	Ellipse2D el2d;
 
 	public Ellipse(final double x, final double y, final double width,
@@ -22,7 +25,7 @@ public class Ellipse extends RectangularShape {
 	public void draw(final Graphics2D g2d) {
 		el2d.setFrame(x, y, width, height);
 
-		g2d.setPaint(Color.CYAN);
+		g2d.setPaint(color);
 
 		if (isFilled) {
 			g2d.fill(el2d);
@@ -39,6 +42,17 @@ public class Ellipse extends RectangularShape {
 	@Override
 	public boolean checkHit(final Point point) {
 		return el2d.contains(point);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setColor(java.awt.Color)
+	 */
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
+
 	}
 
 }
