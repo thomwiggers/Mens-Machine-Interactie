@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -48,6 +49,9 @@ public class OptiesPanel extends JPanel {
 		this.setLayout(new GridLayout(3, 1));
 
 		initColorPicker();
+		
+		this.add(new SliderPanel());
+		
 
 	}
 
@@ -137,5 +141,39 @@ public class OptiesPanel extends JPanel {
 			}
 		}
 
+	}
+
+	protected class SliderPanel extends JPanel implements ChangeListener {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6529442891082983907L;
+		private JSlider lijnDikte;
+		
+		public SliderPanel() {
+
+
+			this.setLayout(new GridLayout(0, 2));
+			
+			this.add(new JLabel("Lijndikte: ", JLabel.RIGHT));
+
+			lijnDikte = new JSlider(10, 150, 30);
+			lijnDikte.addChangeListener(this);
+
+			this.add(lijnDikte);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent
+		 * )
+		 */
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			canvas.setLineWidth((float) lijnDikte.getValue() / 10f);
+		}
 	}
 }

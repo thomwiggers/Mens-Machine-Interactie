@@ -14,6 +14,7 @@ public class Triangle implements Shape {
 	private Color color;
 	private Color lineColor;
 	private boolean isFilled;
+	private float lineWidth;
 
 	public Triangle(Point p1, Point p2, Point p3, boolean filled) {
 		this.p1 = p1;
@@ -35,7 +36,7 @@ public class Triangle implements Shape {
 			g2d.fill(p);
 		}
 		g2d.setPaint(lineColor);
-		g2d.setStroke(new BasicStroke(3.0f));
+		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.drawPolygon(p);
 
 		if (this.selected) {
@@ -152,6 +153,17 @@ public class Triangle implements Shape {
 	@Override
 	public void setLineColor(Color color) {
 		this.lineColor = color;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setLineWidth(float)
+	 */
+	@Override
+	public void setLineWidth(float lineWidth) {
+		this.lineWidth = lineWidth;
+
 	}
 
 }

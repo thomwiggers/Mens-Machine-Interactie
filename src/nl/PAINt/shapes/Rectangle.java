@@ -27,7 +27,7 @@ public class Rectangle extends RectangularShape {
 			g2d.fill(rect2d);
 			g2d.setPaint(lineColor);
 		}
-		g2d.setStroke(new BasicStroke(3.0f));
+		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.draw(rect2d);
 
 		if (this.selectionBox) {

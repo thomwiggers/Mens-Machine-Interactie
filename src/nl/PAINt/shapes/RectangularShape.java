@@ -11,6 +11,7 @@ public abstract class RectangularShape implements Shape {
 	protected boolean selectionBox;
 	protected Color color = Color.black;
 	protected Color lineColor = Color.black;
+	protected float lineWidth = 3.0f;
 
 	/**
 	 * @param color
@@ -149,4 +150,7 @@ public abstract class RectangularShape implements Shape {
 		this.lineColor = color;
 	}
 
+	public void setLineWidth(float f) {
+		this.lineWidth = f;
+	}
 }

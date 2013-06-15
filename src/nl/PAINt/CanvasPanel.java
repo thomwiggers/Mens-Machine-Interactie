@@ -33,6 +33,7 @@ public class CanvasPanel extends JPanel {
 	private PanelMode mode;
 	private Color color = Color.BLACK;
 	private Color lineColor = Color.black;
+	private float lineWidth = 3.0f;
 
 	public CanvasPanel() {
 		setPreferredSize(new Dimension(1280, 900));
@@ -148,6 +149,7 @@ public class CanvasPanel extends JPanel {
 			}
 			currentlyDrawing.setColor(color);
 			currentlyDrawing.setLineColor(lineColor);
+			currentlyDrawing.setLineWidth(lineWidth);
 
 			displayList.add(currentlyDrawing);
 			currentlyDrawing.setSelectionBox(true);
@@ -392,5 +394,19 @@ public class CanvasPanel extends JPanel {
 			}
 		}
 
+	}
+
+	/**
+	 * @param f
+	 */
+	public void setLineWidth(float f) {
+		lineWidth = f;
+		if (resizeListener instanceof ResizeListener) {
+			ResizeListener rsl = (ResizeListener) resizeListener;
+			if (rsl.selected != null) {
+				rsl.selected.setLineWidth(f);
+				repaint();
+			}
+		}
 	}
 }

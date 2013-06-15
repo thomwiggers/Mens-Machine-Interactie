@@ -26,4 +26,9 @@ public interface Shape {
 	 * @param color
 	 */
 	public void setLineColor(Color color);
+
+	/**
+	 * @param lineWidth
+	 */
+	public void setLineWidth(float lineWidth);
 }

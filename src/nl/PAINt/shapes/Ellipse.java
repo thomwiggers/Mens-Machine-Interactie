@@ -34,7 +34,7 @@ public class Ellipse extends RectangularShape {
 			g2d.fill(el2d);
 		}
 		g2d.setPaint(lineColor);
-		g2d.setStroke(new BasicStroke(3.0f));
+		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.draw(el2d);
 
 		if (selectionBox) {
@@ -47,26 +47,5 @@ public class Ellipse extends RectangularShape {
 		return el2d.contains(point);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see nl.PAINt.shapes.Shape#setColor(java.awt.Color)
-	 */
-	@Override
-	public void setColor(Color color) {
-		this.color = color;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see nl.PAINt.shapes.Shape#setLineColor(java.awt.Color)
-	 */
-	@Override
-	public void setLineColor(Color color) {
-		this.lineColor = color;
-
-	}
 
 }
