@@ -74,6 +74,7 @@ public class MessageServer {
 				}
 			}
 		});
+		t1.setDaemon(true);
 		t1.start();
 	}
 
