@@ -103,7 +103,7 @@ public class MessageServer {
 		public void run() {
 			String line = null;
 			try {
-				if ((line = reader.readLine()) != null) {
+				while ((line = reader.readLine()) != null) {
 					// TODO PARSE LINE
 				}
 			} catch (IOException e) {
