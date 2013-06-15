@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -3312756899988117703L;
@@ -17,8 +18,17 @@ public class MainWindow extends JFrame {
 	private OptiesPanel optiesPanel;
 
 	public MainWindow() {
-		canvas = new CanvasPanel();
-		knopjes = new KnopjesPanel(canvas);
+		this.canvas = new CanvasPanel();
+		this.knopjes = new KnopjesPanel(canvas);
+		this.statusbar = new StatusbarPanel(getWidth());
+		
+		WaitPanel panel = new WaitPanel();
+		super.add(panel);
+		
+
+	}
+	
+	private void connected(){
 		optiesPanel = new OptiesPanel(canvas);
 		new MessageServer(canvas);
 		super.add(knopjes, BorderLayout.WEST);
@@ -27,10 +37,8 @@ public class MainWindow extends JFrame {
 
 		initMenus();
 
-		// Statusbar:
-		statusbar = new StatusbarPanel(getWidth());
+		
 		this.add(statusbar, BorderLayout.SOUTH);
-
 	}
 
 	private void initMenus() {
