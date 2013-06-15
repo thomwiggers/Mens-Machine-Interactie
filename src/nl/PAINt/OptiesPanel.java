@@ -46,6 +46,7 @@ public class OptiesPanel extends JPanel implements ChangeListener {
 
 		colorPicker = new JColorChooser();
 		colorPicker.getSelectionModel().addChangeListener(this);
+		colorPicker.setPreviewPanel(new JPanel());
 		boolean skipped = false;
 		for (AbstractColorChooserPanel panel : colorPicker.getChooserPanels()) {
 			if (!skipped) {
