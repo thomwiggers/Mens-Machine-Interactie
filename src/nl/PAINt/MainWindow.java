@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
@@ -145,7 +146,7 @@ public class MainWindow extends JFrame {
 				setMode(PanelMode.MOVE);
 				break;
 			case "Resize mode":
-				setMode(PanelMode.RESIZE);
+				setMode(PanelMode.SELECT);
 				break;
 			case "Non-filled rectangle":
 				setMode(PanelMode.RECTANGLE);

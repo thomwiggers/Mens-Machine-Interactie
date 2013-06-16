@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
+import nl.PAINt.PanelMode;
+
 public class Ellipse extends RectangularShape {
 
 	Ellipse2D el2d;
@@ -40,6 +42,10 @@ public class Ellipse extends RectangularShape {
 		boolean hit = this.el2d.contains(point);
 		logger.debug("Did " + (hit ? "" : "not ") + "hit " + this.toString());
 		return hit;
+	}
+	
+	public PanelMode getContext(){
+		return PanelMode.ELLIPSE;
 	}
 
 

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import nl.PAINt.PanelMode;
+
 public interface Shape {
 	public void draw(Graphics2D g2d);
 
@@ -36,4 +38,6 @@ public interface Shape {
 	 * @param b
 	 */
 	public void setFilled(boolean b);
+	
+	public PanelMode getContext();
 }

@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
+import nl.PAINt.PanelMode;
+
 public class Rectangle extends RectangularShape {
 	private Rectangle2D rect2d;
 
@@ -39,6 +41,10 @@ public class Rectangle extends RectangularShape {
 		boolean hit = this.rect2d.contains(point);
 		logger.debug("Did " + (hit ? "not " : "") + "hit " + this.toString());
 		return hit;
+	}
+	
+	public PanelMode getContext(){
+		return PanelMode.RECTANGLE;
 	}
 
 }

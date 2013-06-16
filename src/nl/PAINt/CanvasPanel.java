@@ -98,7 +98,7 @@ public class CanvasPanel extends JPanel {
 			logger.debug("Adding modeListener");
 			addMouseListener(modeListener);
 			addMouseMotionListener(modeListener);
-		} else if (pm == PanelMode.RESIZE) {
+		} else if (pm == PanelMode.SELECT) {
 			logger.debug("Adding resizelistener");
 			addMouseListener(resizeListener);
 			addMouseMotionListener(resizeListener);
@@ -109,9 +109,6 @@ public class CanvasPanel extends JPanel {
 		}
 		mode = pm;
 
-		if (this.apiServer != null) {
-			apiServer.sendContext(mode);
-		}
 	}
 
 	private class DrawModeListener implements MouseInputListener {
@@ -176,7 +173,7 @@ public class CanvasPanel extends JPanel {
 				break;
 			case DELETE:
 			case MOVE:
-			case RESIZE:
+			case SELECT:
 			default:
 				logger.error("unsupported mode");
 				throw new IllegalArgumentException("Operation " + mode.toString()
@@ -345,6 +342,7 @@ public class CanvasPanel extends JPanel {
 			if (selected == null || !selected.lockCorner(arg0.getPoint())) {
 				if (selected != null) {
 					logger.info("Deselected " + selected.toString());
+					
 					selected.setSelectionBox(false);
 				}
 
@@ -353,14 +351,18 @@ public class CanvasPanel extends JPanel {
 					if (shape.checkHit(arg0.getPoint())) {
 						selected = shape;
 						logger.info("Selected " + shape.toString());
+						CanvasPanel.this.apiServer.sendContext(selected.getContext());
 						selected.setSelectionBox(true);
 						break;
 					}
 				}
 			}
 
-			if (selected == null)
+			if (selected == null){
+				CanvasPanel.this.apiServer.sendContext(PanelMode.NONE);
 				return;
+			}
+				
 
 			// meteen operaties uitvoeren
 			if (selected.lockCorner(arg0.getPoint())) {

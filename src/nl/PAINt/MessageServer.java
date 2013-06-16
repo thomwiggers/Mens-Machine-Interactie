@@ -62,11 +62,11 @@ public class MessageServer {
 					}
 
 					try {
-						BufferedReader reader = new BufferedReader(new InputStreamReader(
-								socket.getInputStream()));
+						BufferedReader reader = new BufferedReader(
+								new InputStreamReader(socket.getInputStream()));
 
-						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-								socket.getOutputStream()));
+						BufferedWriter writer = new BufferedWriter(
+								new OutputStreamWriter(socket.getOutputStream()));
 
 						StreamReader sr = new StreamReader(reader, window);
 
@@ -129,6 +129,9 @@ public class MessageServer {
 					case "start":
 						window.connected();
 						break;
+					case "select":
+						canvas.setMode(PanelMode.SELECT);
+						break;
 					case "drawmode":
 						if (lineParts.length >= 2) {
 							switch (lineParts[1]) {
@@ -149,8 +152,8 @@ public class MessageServer {
 								break;
 							default:
 								throw new IllegalArgumentException(
-										"Illegal API call, operation drawmode " + lineParts[1]
-												+ " unknown");
+										"Illegal API call, operation drawmode "
+												+ lineParts[1] + " unknown");
 
 							}
 						} else
@@ -195,7 +198,8 @@ public class MessageServer {
 							break;
 						default:
 							throw new IllegalArgumentException(
-									"Illegal parameter for operation rotate: " + lineParts[1]);
+									"Illegal parameter for operation rotate: "
+											+ lineParts[1]);
 						}
 					case "z-index":
 						if (lineParts.length < 2)
@@ -211,7 +215,8 @@ public class MessageServer {
 						}
 						break;
 					default:
-						throw new IllegalArgumentException("Unknown command specified: ");
+						throw new IllegalArgumentException(
+								"Unknown command specified: ");
 					}
 				}
 			} catch (IOException e) {
@@ -245,7 +250,12 @@ public class MessageServer {
 				while (true) {
 					Thread.sleep(50);
 
-					String line = queue.poll().trim();
+					String poll = queue.poll();
+					String line = null;
+					if(poll != null){
+						line = poll.trim();
+					}
+					
 					if (line != null) {
 						try {
 							logger.debug("Sending command " + line);
@@ -282,7 +292,7 @@ public class MessageServer {
 			this.outqueue.add("context line");
 			break;
 		case MOVE:
-		case RESIZE:
+		case SELECT:
 			this.outqueue.add("context select");
 			break;
 		case RECTANGLE:
@@ -294,6 +304,9 @@ public class MessageServer {
 			break;
 		case TRIANGLE:
 			this.outqueue.add("context triangle");
+			break;
+		case NONE:
+			this.outqueue.add("context none");
 			break;
 		}
 

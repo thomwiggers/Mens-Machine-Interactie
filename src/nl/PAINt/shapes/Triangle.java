@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Rectangle2D;
 
+import nl.PAINt.PanelMode;
+
 public class Triangle implements Shape {
 	Point p1, p2, p3;
 	private boolean selected;
@@ -181,6 +183,10 @@ public class Triangle implements Shape {
 
 	public String toString() {
 		return "Triangle " + instanceNr;
+	}
+	
+	public PanelMode getContext(){
+		return PanelMode.TRIANGLE;
 	}
 
 }
