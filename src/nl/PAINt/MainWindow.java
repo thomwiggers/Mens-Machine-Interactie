@@ -20,7 +20,6 @@ public class MainWindow extends JFrame {
 
 	public MainWindow() {
 		
-		
 		wpanel = new WaitPanel();
 		super.add(wpanel);
 		
