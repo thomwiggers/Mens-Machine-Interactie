@@ -119,6 +119,7 @@ public class OptiesPanel extends JPanel {
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			block.setBackground(colorPicker.getColor());
+			canvas.setActiveColor(colorPicker.getColor());
 		}
 
 		/*

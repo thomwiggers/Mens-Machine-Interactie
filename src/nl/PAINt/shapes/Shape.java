@@ -31,4 +31,9 @@ public interface Shape {
 	 * @param lineWidth
 	 */
 	public void setLineWidth(float lineWidth);
+
+	/**
+	 * @param b
+	 */
+	public void setFilled(boolean b);
 }

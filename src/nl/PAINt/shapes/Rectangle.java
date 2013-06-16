@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 public class Rectangle extends RectangularShape {
-	private boolean isFilled;
 	private Rectangle2D rect2d;
 
 	public Rectangle(double x, double y, double width, double height,

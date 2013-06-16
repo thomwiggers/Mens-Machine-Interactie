@@ -36,6 +36,7 @@ public class CanvasPanel extends JPanel {
 	private Color lineColor = Color.black;
 	private float lineWidth = 3.0f;
 	private MessageServer apiServer = null;
+	private Color activeColor;
 
 	/**
 	 * @param apiServer
@@ -394,7 +395,7 @@ public class CanvasPanel extends JPanel {
 		this.lineColor = color;
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
-				((ResizeListener) resizeListener).selected.setLineColor(color);
+				((ResizeListener) resizeListener).selected.setLineColor(lineColor);
 				repaint();
 			}
 		}
@@ -419,23 +420,34 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void applyLineColor() {
-		// TODO Auto-generated method stub
-
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setLineColor(activeColor);
+			repaint();
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public void applyFill() {
-		// TODO Auto-generated method stub
-
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setColor(activeColor);
+			rs.selected.setFilled(true);
+			repaint();
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public void removeFill() {
-		// TODO Auto-generated method stub
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setFilled(false);
+			repaint();
+		}
 
 	}
 
@@ -443,7 +455,12 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void deleteSelected() {
-		// TODO Auto-generated method stub
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			displayList.remove(rs.selected);
+			rs.selected = null;
+			repaint();
+		}
 
 	}
 
@@ -497,5 +514,13 @@ public class CanvasPanel extends JPanel {
 		displayList.set(a, displayList.get(b));
 		displayList.set(b, temp);
 
+	}
+
+	/**
+	 * @param color
+	 */
+	public void setActiveColor(Color color) {
+		this.activeColor = color;
+		
 	}
 }

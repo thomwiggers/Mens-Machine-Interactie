@@ -12,6 +12,7 @@ public abstract class RectangularShape implements Shape {
 	protected Color color = Color.black;
 	protected Color lineColor = Color.black;
 	protected float lineWidth = 3.0f;
+	protected boolean isFilled = false;
 
 	/**
 	 * @param color
@@ -152,5 +153,9 @@ public abstract class RectangularShape implements Shape {
 
 	public void setLineWidth(float f) {
 		this.lineWidth = f;
+	}
+
+	public void setFilled(boolean isFilled) {
+		this.isFilled = isFilled;
 	}
 }

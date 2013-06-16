@@ -166,4 +166,15 @@ public class Triangle implements Shape {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean b) {
+		this.isFilled = b;
+		
+	}
+
 }
