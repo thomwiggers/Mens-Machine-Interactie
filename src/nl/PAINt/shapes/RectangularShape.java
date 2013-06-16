@@ -163,7 +163,8 @@ public abstract class RectangularShape implements Shape {
 	public abstract boolean checkHit(Point point);
 
 	public void setLineColor(Color color) {
-		logger.debug("Set line color " + color.toString());
+		logger.debug("Set line color of " + this.toString() + " to "
+				+ color.toString());
 		this.lineColor = color;
 	}
 
@@ -173,7 +174,8 @@ public abstract class RectangularShape implements Shape {
 	}
 
 	public void setFilled(boolean isFilled) {
-		logger.debug((isFilled ? "enabled" : "disabled") + " fill");
+		logger.debug((isFilled ? "enabled" : "disabled") + " fill of "
+				+ this.toString());
 		this.isFilled = isFilled;
 	}
 

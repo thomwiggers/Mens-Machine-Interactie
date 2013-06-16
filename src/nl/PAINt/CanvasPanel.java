@@ -385,7 +385,6 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseDragged(final MouseEvent arg0) {
-			// TODO verder met logging
 			if (startPoint != null && selected != null) {
 				if (selected instanceof Triangle) {
 					((Triangle) selected).moveCorner(arg0.getPoint());
@@ -415,6 +414,7 @@ public class CanvasPanel extends JPanel {
 	 * @param color
 	 */
 	public void setColor(Color color) {
+		logger.debug("Selected color: " + color.toString());
 		this.color = color;
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
@@ -428,6 +428,7 @@ public class CanvasPanel extends JPanel {
 	 * @param color2
 	 */
 	public void setLineColor(Color color) {
+		logger.debug("selected line color " + color.toString());
 		this.lineColor = color;
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
@@ -442,6 +443,7 @@ public class CanvasPanel extends JPanel {
 	 * @param f
 	 */
 	public void setLineWidth(float f) {
+		logger.debug("Selected line width: " + f);
 		lineWidth = f;
 		if (resizeListener instanceof ResizeListener) {
 			ResizeListener rsl = (ResizeListener) resizeListener;
@@ -456,6 +458,7 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void applyLineColor() {
+		logger.debug("Trying to apply line color ");
 		ResizeListener rs = getResizeListener();
 		if (rs.selected != null) {
 			rs.selected.setLineColor(activeColor);
@@ -467,6 +470,7 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void applyFill() {
+		logger.debug("Trying to apply fill ");
 		ResizeListener rs = getResizeListener();
 		if (rs.selected != null) {
 			rs.selected.setColor(activeColor);
@@ -479,6 +483,7 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void removeFill() {
+		logger.debug("Trying to remove fill ");
 		ResizeListener rs = getResizeListener();
 		if (rs.selected != null) {
 			rs.selected.setFilled(false);
@@ -491,9 +496,11 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void deleteSelected() {
+		logger.debug("Trying to delete shape");
 		ResizeListener rs = getResizeListener();
 		if (rs.selected != null) {
 			displayList.remove(rs.selected);
+			logger.info("Deleted " + rs.selected.toString());
 			rs.selected = null;
 			repaint();
 		}
@@ -504,6 +511,7 @@ public class CanvasPanel extends JPanel {
 	 * @param i
 	 */
 	public void rotateSelected(int i) {
+		logger.debug("rotating selected");
 		// TODO Auto-generated method stub
 
 	}
@@ -512,10 +520,12 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void moveSelectedForward() {
+		logger.debug("Trying to move selected forward");
 		ResizeListener rs = getResizeListener();
 		if (rs.selected != null) {
 			int index = this.displayList.indexOf(rs.selected);
 			if (index > 0) {
+				logger.info("moving shape forwards");
 				swapDisplayList(index - 1, index);
 				repaint();
 			}
@@ -530,6 +540,7 @@ public class CanvasPanel extends JPanel {
 		if (rs.selected != null) {
 			int index = this.displayList.indexOf(rs.selected);
 			if (displayList.size() - 1 > index && index != -1) {
+				logger.info("moving shape backwards");
 				swapDisplayList(index, index + 1);
 				repaint();
 			}
@@ -555,6 +566,7 @@ public class CanvasPanel extends JPanel {
 	 * @param color
 	 */
 	public void setActiveColor(Color color) {
+		logger.info("setting active color to " + color.toString());
 		this.activeColor = color;
 		
 	}

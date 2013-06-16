@@ -37,7 +37,7 @@ public class Rectangle extends RectangularShape {
 	@Override
 	public boolean checkHit(Point point) {
 		boolean hit = this.rect2d.contains(point);
-		logger.debug("Did " + (hit ? "not " : "") + "hit me");
+		logger.debug("Did " + (hit ? "not " : "") + "hit " + this.toString());
 		return hit;
 	}
 
