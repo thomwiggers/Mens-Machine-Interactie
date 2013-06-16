@@ -9,26 +9,30 @@
 package nl.PAINt;
 
 public enum PanelMode {
-	DELETE, MOVE, RESIZE, RECT, TRIANGLE, ELL, ELL_FILLED, RECT_FILLED;
+	DELETE, MOVE, RESIZE, RECTANGLE, TRIANGLE, ELLIPSE, ELL_FILLED, RECT_FILLED, LINE, TEXT;
 
 	@Override
 	public String toString() {
 		switch (this) {
 		case DELETE:
 			return "Delete mode";
-		case ELL:
+		case ELLIPSE:
 			return "Ellipse mode";
 		case ELL_FILLED:
 			return "Filled ellipse mode";
 		case MOVE:
 			return "Move mode";
 		case RECT_FILLED:
-		case RECT:
+		case RECTANGLE:
 			return "Rectangle mode";
 		case TRIANGLE:
 			return "Filled rectangle mode";
 		case RESIZE:
 			return "Resize mode";
+		case LINE:
+			return "Line Mode";
+		case TEXT:
+			return "Text Mode";
 		default:
 			return "UNKNOWN MODE";
 

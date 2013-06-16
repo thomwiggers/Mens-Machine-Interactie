@@ -1,5 +1,5 @@
 /**
- * PAINt 
+ * PAaneINt 
  * 
  * Created for the course intro Human-Computer Interaction at the
  * Radboud Universiteit Nijmegen
@@ -33,6 +33,7 @@ public class MessageServer {
 	 * 
 	 */
 	public MessageServer(final CanvasPanel canvas) {
+
 		try {
 			server = new ServerSocket(2222);
 			server.setSoTimeout(0);
@@ -81,6 +82,7 @@ public class MessageServer {
 		});
 		t1.setDaemon(true);
 		t1.start();
+		canvas.setApiServer(this);
 	}
 
 	class StreamReader implements Runnable {
@@ -104,7 +106,83 @@ public class MessageServer {
 			try {
 				while ((line = reader.readLine()) != null) {
 					System.out.println("received line " + line);
-					// TODO PARSE LINE
+
+					line = line.toLowerCase();
+					String[] lineParts = line.split(" ");
+					switch (lineParts[0]) {
+					case "jemoeder":
+						System.out.println("Je moeder is een linepart");
+						break;
+					case "drawmode":
+						if (lineParts.length >= 2) {
+							switch (lineParts[1]) {
+							case "triangle":
+								canvas.setMode(PanelMode.TRIANGLE);
+								break;
+							case "rectangle":
+								canvas.setMode(PanelMode.RECTANGLE);
+								break;
+							case "ellipse":
+								canvas.setMode(PanelMode.ELLIPSE);
+								break;
+							case "line":
+								canvas.setMode(PanelMode.LINE);
+								break;
+							case "text":
+								canvas.setMode(PanelMode.TEXT);
+								break;
+							default:
+								throw new IllegalArgumentException(
+										"Illegal API call, operation drawmode " + lineParts[1]
+												+ " unknown");
+
+							}
+						} else
+							throw new IllegalArgumentException(
+									"Not enough parameters for operation drawmode");
+						break;
+					case "applycolor":
+						if (lineParts.length < 2)
+							throw new IllegalArgumentException(
+									"Not enough parameters for operation applycolor");
+						switch (lineParts[1]) {
+						case "line":
+							canvas.applyLineColor();
+							break;
+						case "fill":
+							canvas.applyFill();
+							break;
+						default:
+							throw new IllegalArgumentException(
+									"Illegal API call, operation applycolor doesn't support "
+											+ lineParts[1]);
+
+						}
+						break;
+					case "unfill":
+						canvas.removeFill();
+						break;
+					case "delete":
+						canvas.deleteSelected();
+						break;
+					case "rotate":
+						if (lineParts.length < 2) {
+							throw new IllegalArgumentException(
+									"not enough parameters for operation rotate");
+						}
+						switch (lineParts[1]) {
+						case "+":
+							canvas.rotateSelected(10);
+							break;
+						case "-":
+							canvas.rotateSelected(-10);
+							break;
+						default:
+							throw new IllegalArgumentException(
+									"Illegal parameter for operation rotate: " + lineParts[1]);
+						}
+					}
+
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -152,6 +230,38 @@ public class MessageServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+
+	}
+
+	/**
+	 * @param mode
+	 */
+	public void sendContext(PanelMode mode) {
+		switch (mode) {
+		case DELETE:
+			break;
+		case ELLIPSE:
+		case ELL_FILLED:
+			this.outqueue.add("context ellipse");
+			break;
+		case LINE:
+			this.outqueue.add("context line");
+			break;
+		case MOVE:
+		case RESIZE:
+			this.outqueue.add("context select");
+			break;
+		case RECTANGLE:
+		case RECT_FILLED:
+			this.outqueue.add("context rectangle");
+			break;
+		case TEXT:
+			this.outqueue.add("context text");
+			break;
+		case TRIANGLE:
+			this.outqueue.add("context triangle");
+			break;
 		}
 
 	}

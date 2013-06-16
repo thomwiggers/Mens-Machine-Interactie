@@ -133,13 +133,13 @@ public class KnopjesPanel extends JPanel implements ActionListener {
 			canvas.setMode(PanelMode.ELL_FILLED);
 			break;
 		case ELLIPS_TEKENEN:
-			canvas.setMode(PanelMode.ELL);
+			canvas.setMode(PanelMode.ELLIPSE);
 			break;
 		case RESIZE:
 			canvas.setMode(PanelMode.RESIZE);
 			break;
 		case VIERKANT_TEKENEN:
-			canvas.setMode(PanelMode.RECT);
+			canvas.setMode(PanelMode.RECTANGLE);
 			break;
 		case VIERKANT_TEKENEN_FILLED:
 			canvas.setMode(PanelMode.RECT_FILLED);

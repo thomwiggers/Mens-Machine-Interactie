@@ -105,13 +105,13 @@ public class MainWindow extends JFrame {
 				setMode(PanelMode.RESIZE);
 				break;
 			case "Non-filled rectangle":
-				setMode(PanelMode.RECT);
+				setMode(PanelMode.RECTANGLE);
 				break;
 			case "Filled rectangle":
 				setMode(PanelMode.TRIANGLE);
 				break;
 			case "Non-filled ellipse":
-				setMode(PanelMode.ELL);
+				setMode(PanelMode.ELLIPSE);
 				break;
 			case "Filled ellipse":
 				setMode(PanelMode.ELL_FILLED);
