@@ -9,6 +9,7 @@ public class Ellipse extends RectangularShape {
 
 	Ellipse2D el2d;
 
+
 	public Ellipse(final double x, final double y, final double width,
 			final double height, final boolean isFilled) {
 		super(x, y, width, height);
@@ -35,8 +36,10 @@ public class Ellipse extends RectangularShape {
 	}
 
 	@Override
-	public boolean checkHit(final Point point) {
-		return el2d.contains(point);
+	public boolean checkHit(Point point) {
+		boolean hit = this.el2d.contains(point);
+		logger.debug("Did " + (hit ? "" : "not ") + "hit " + this.toString());
+		return hit;
 	}
 
 
