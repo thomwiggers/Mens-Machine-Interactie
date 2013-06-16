@@ -38,7 +38,7 @@ public class Ellipse extends RectangularShape {
 	@Override
 	public boolean checkHit(Point point) {
 		boolean hit = this.el2d.contains(point);
-		logger.debug("Did " + (hit ? "not " : "") + "hit " + this.toString());
+		logger.debug("Did " + (hit ? "" : "not ") + "hit " + this.toString());
 		return hit;
 	}
 
