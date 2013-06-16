@@ -23,6 +23,8 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Luuk Scholten & Thom Wiggers
  * 
@@ -36,11 +38,15 @@ public class OptiesPanel extends JPanel {
 	private CanvasPanel canvas;
 	private JColorChooser colorPicker;
 
+	private Logger logger;
+
 	/**
 	 * @param canvas
 	 * 
 	 */
 	public OptiesPanel(CanvasPanel theCanvas) {
+		logger = Logger.getLogger(getClass());
+
 		canvas = theCanvas;
 
 		setBackground(Color.black);
@@ -56,6 +62,7 @@ public class OptiesPanel extends JPanel {
 	}
 
 	private void initColorPicker() {
+		logger.debug("initialising color picker");
 		colorPicker = new JColorChooser();
 		PreviewPanel pp = new PreviewPanel();
 		colorPicker.getSelectionModel().addChangeListener(pp);
@@ -80,15 +87,18 @@ public class OptiesPanel extends JPanel {
 		private static final long serialVersionUID = 3445719326561602037L;
 		private JLabel label;
 		private JPanel block;
+		private Logger logger;
 
 		public PreviewPanel() {
 			super();
+
+			logger = Logger.getLogger(PreviewPanel.class);
 
 			this.setLayout(new GridLayout(0, 2));
 
 			setPreferredSize(new Dimension(400, 100));
 			setSize(getPreferredSize());
-			label = new JLabel("Huidige Kleur:");
+			label = new JLabel("Huidige Kleur: ");
 			label.setBackground(Color.blue);
 			label.setSize(getPreferredSize());
 			label.setVisible(true);
@@ -118,7 +128,10 @@ public class OptiesPanel extends JPanel {
 		 */
 		@Override
 		public void stateChanged(ChangeEvent e) {
+			logger.info("Gebruiker koos nieuwe kleur "
+					+ colorPicker.getColor().toString());
 			block.setBackground(colorPicker.getColor());
+			canvas.setActiveColor(colorPicker.getColor());
 		}
 
 		/*
@@ -129,6 +142,7 @@ public class OptiesPanel extends JPanel {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			logger.info("Gebruiker klinkte op actie " + arg0.getActionCommand());
 			switch (arg0.getActionCommand()) {
 			case "FILL":
 				canvas.setColor(colorPicker.getColor());
@@ -137,7 +151,9 @@ public class OptiesPanel extends JPanel {
 				canvas.setLineColor(colorPicker.getColor());
 				break;
 			default:
-				throw new IllegalArgumentException("WAT");
+				IllegalArgumentException e = new IllegalArgumentException("WAT");
+				logger.error("Unrecognised action in PreviewPanel", e);
+				throw e;
 			}
 		}
 
@@ -150,9 +166,10 @@ public class OptiesPanel extends JPanel {
 		 */
 		private static final long serialVersionUID = -6529442891082983907L;
 		private JSlider lijnDikte;
+		private Logger logger = Logger.getLogger(SliderPanel.class);
 		
 		public SliderPanel() {
-
+			logger.debug("initialising SliderPanel");
 
 			this.setLayout(new GridLayout(0, 2));
 			
@@ -173,6 +190,7 @@ public class OptiesPanel extends JPanel {
 		 */
 		@Override
 		public void stateChanged(ChangeEvent arg0) {
+			logger.info("Gebruiker koos lijndikte: " + lijnDikte.getValue());
 			canvas.setLineWidth((float) lijnDikte.getValue() / 10f);
 		}
 	}

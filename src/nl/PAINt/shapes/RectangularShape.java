@@ -6,12 +6,17 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
+import org.apache.log4j.Logger;
+
 public abstract class RectangularShape implements Shape {
 	protected double x, y, width, height;
 	protected boolean selectionBox;
 	protected Color color = Color.black;
 	protected Color lineColor = Color.black;
 	protected float lineWidth = 3.0f;
+	protected boolean isFilled = false;
+
+	protected Logger logger;
 
 	/**
 	 * @param color
@@ -28,12 +33,15 @@ public abstract class RectangularShape implements Shape {
 	private CornerLock lockedCorner = null;
 	private Point xyLock = null;
 	private Point whLock = null;
+	private static int instanceNr = 0;
 
 
 	public RectangularShape(final double x, final double y, final double width,
 			final double height) {
+		instanceNr++;
 		selectionBox = false;
 		setFrame(x, y, width, height);
+		logger = Logger.getLogger(getClass());
 	}
 
 	public abstract void draw(Graphics2D g2d);
@@ -58,6 +66,7 @@ public abstract class RectangularShape implements Shape {
 	}
 
 	public void move(final double dx, final double dy) {
+		logger.debug("Moving object (dx, dy): (" + dx + ", " + dy + ")");
 		x += dx;
 		y += dy;
 	}
@@ -90,24 +99,29 @@ public abstract class RectangularShape implements Shape {
 		xyLock = new Point((int) x, (int) y);
 		whLock = new Point((int) width, (int) height);
 		if (p.x >= x - 5 && p.x <= x + 5 && p.y >= y - 5 && p.y <= y + 5) {
+			logger.debug("Locked Top-Left corner");
 			lockedCorner = CornerLock.TOPLEFT;
 			return true;
 		}
 		if (p.x >= x + width - 5 && p.x <= x + width + 5 && p.y >= y - 5
 				&& p.y <= y + 5) {
+			logger.debug("Locked Top-Right corner");
 			lockedCorner = CornerLock.TOPRIGHT;
 			return true;
 		}
 		if (p.x >= x - 5 && p.x <= x + 5 && p.y >= y + height - 5
 				&& p.y <= y + height + 5) {
+			logger.debug("Locked Bottom-Left corner");
 			lockedCorner = CornerLock.BOTTOMLEFT;
 			return true;
 		}
 		if (p.x >= x - 5 + width && p.x <= x + 5 + width && p.y >= y - 5 + height
 				&& p.y <= y + 5 + height) {
+			logger.debug("Locked Bottom Right corner");
 			lockedCorner = CornerLock.BOTTOMRIGHT;
 			return true;
 		}
+		logger.debug("did not lock corner");
 		xyLock = null;
 		return false;
 	}
@@ -137,20 +151,33 @@ public abstract class RectangularShape implements Shape {
 	}
 
 	public void unlockCorner() {
+		logger.debug("Unlocked corner");
 		lockedCorner = null;
 	}
 
 	public void setSelectionBox(final boolean bool) {
+		logger.debug((bool ? "enabled " : "disabled") + " selection box");
 		selectionBox = bool;
 	}
 
 	public abstract boolean checkHit(Point point);
 
 	public void setLineColor(Color color) {
+		logger.debug("Set line color " + color.toString());
 		this.lineColor = color;
 	}
 
 	public void setLineWidth(float f) {
+		logger.debug("set line width " + f);
 		this.lineWidth = f;
+	}
+
+	public void setFilled(boolean isFilled) {
+		logger.debug((isFilled ? "enabled" : "disabled") + " fill");
+		this.isFilled = isFilled;
+	}
+
+	public String toString() {
+		return getClass().getSimpleName() + " " + instanceNr;
 	}
 }

@@ -3,12 +3,18 @@ package nl.PAINt;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -3312756899988117703L;
@@ -17,37 +23,54 @@ public class MainWindow extends JFrame {
 	private final KnopjesPanel knopjes;
 	private OptiesPanel optiesPanel;
 	WaitPanel wpanel;
+	private Logger logger;
 
 	public MainWindow() {
-		
+
 		wpanel = new WaitPanel();
 		super.add(wpanel);
-		
+
 		this.canvas = new CanvasPanel();
 		this.knopjes = new KnopjesPanel(canvas);
 		this.statusbar = new StatusbarPanel(getWidth());
 		this.optiesPanel = new OptiesPanel(canvas);
-		
+
 		new MessageServer(this);
 
 	}
-	
-	public CanvasPanel getCanvas(){
+
+	public CanvasPanel getCanvas() {
 		return this.canvas;
 	}
-	
-	public void connected(){
+
+	public void connected() {
 		super.remove(wpanel);
+
+		// Logging
+		BasicConfigurator.configure();
+		try {
+			FileAppender fa = new FileAppender(new SimpleLayout(), "PAINt.log",
+					true);
+			Logger.getRootLogger().addAppender(fa);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		logger = Logger.getLogger(getClass());
+		logger.info("Started Logging");
+
+		logger.debug("initialising GUI");
+
 		super.add(knopjes, BorderLayout.WEST);
 		super.add(optiesPanel, BorderLayout.EAST);
 		super.add(canvas);
 		super.add(statusbar, BorderLayout.SOUTH);
-		
+
 		initMenus();
-		
+
 		super.invalidate();
 		super.validate();
 		super.repaint();
+
 	}
 
 	private void initMenus() {
@@ -103,6 +126,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void setMode(final PanelMode mode) {
+		logger.debug("Switching to mode " + mode.name());
 		canvas.setMode(mode);
 		statusbar.setText(mode.toString());
 	}
@@ -111,6 +135,8 @@ public class MainWindow extends JFrame {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
+			logger.info("User selected an action in the menu");
+
 			switch (e.getActionCommand()) {
 			case "Delete mode":
 				setMode(PanelMode.DELETE);

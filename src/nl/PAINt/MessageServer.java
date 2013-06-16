@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Luuk Scholten & Thom Wiggers
  * 
@@ -27,6 +29,7 @@ public class MessageServer {
 
 	ServerSocket server;
 	Socket socket;
+	Logger logger = Logger.getLogger(MessageServer.class);
 
 	Queue<String> outqueue = new LinkedList<>();
 	private CanvasPanel canvas;
@@ -36,11 +39,12 @@ public class MessageServer {
 	 */
 	public MessageServer(final MainWindow window) {
 		try {
+			logger.debug("opening server socket on port 2222");
 			server = new ServerSocket(2222);
 			server.setSoTimeout(0);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			logger.error("IO Error", e);
 			e.printStackTrace();
 		}
 
@@ -50,9 +54,10 @@ public class MessageServer {
 			public void run() {
 				while (true) {
 					try {
+						logger.debug("trying to open a read socket");
 						socket = server.accept();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						logger.error("IO Error when opening Socket", e1);
 						e1.printStackTrace();
 					}
 
@@ -65,17 +70,20 @@ public class MessageServer {
 
 						StreamReader sr = new StreamReader(reader, window);
 
+						logger.debug("starting threads");
 						Thread t1 = new Thread(sr);
+						t1.setName("Input Thread");
 						t1.setDaemon(true);
 						t1.start();
 
 						StreamWriter sw = new StreamWriter(writer, outqueue);
 
 						Thread t2 = new Thread(sw);
+						t2.setName("Output Thread");
 						t2.setDaemon(true);
 						t2.start();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						logger.error("IO error while starting threads", e);
 						e.printStackTrace();
 					}
 				}
@@ -91,10 +99,13 @@ public class MessageServer {
 
 		private BufferedReader reader = null;
 		private MainWindow window = null;
+		private CanvasPanel canvas = null;
+		private Logger logger = Logger.getLogger(StreamReader.class);
 
 		public StreamReader(BufferedReader inputReader, MainWindow window) {
 			reader = inputReader;
 			this.window = window;
+			this.canvas = window.getCanvas();
 		}
 
 		/*
@@ -107,7 +118,7 @@ public class MessageServer {
 			String line = null;
 			try {
 				while ((line = reader.readLine()) != null) {
-					System.out.println("received line " + line);
+					logger.info("received line " + line);
 
 					line = line.toLowerCase();
 					String[] lineParts = line.split(" ");
@@ -204,7 +215,7 @@ public class MessageServer {
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				logger.error("IO error in read thread", e);
 				e.printStackTrace();
 			}
 		}
@@ -215,6 +226,7 @@ public class MessageServer {
 
 		BufferedWriter writer;
 		Queue<String> queue;
+		Logger logger = Logger.getLogger(StreamReader.class);
 
 		public StreamWriter(BufferedWriter outputWriter, Queue<String> queue) {
 			writer = outputWriter;
@@ -228,25 +240,26 @@ public class MessageServer {
 		 */
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub\
+
 			try {
 				while (true) {
 					Thread.sleep(50);
 
-					String line = queue.poll();
+					String line = queue.poll().trim();
 					if (line != null) {
 						try {
+							logger.debug("Sending command " + line);
 							writer.write(line + "\n");
 							writer.flush();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							logger.error("IO error", e);
 							e.printStackTrace();
 						}
 					}
 
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				logger.debug("Interrupted", e);
 				e.printStackTrace();
 			}
 		}
@@ -257,6 +270,7 @@ public class MessageServer {
 	 * @param mode
 	 */
 	public void sendContext(PanelMode mode) {
+		logger.info("Sending context for mode " + mode.toString());
 		switch (mode) {
 		case DELETE:
 			break;

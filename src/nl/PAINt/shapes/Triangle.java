@@ -15,8 +15,10 @@ public class Triangle implements Shape {
 	private Color lineColor;
 	private boolean isFilled;
 	private float lineWidth;
+	private static int instanceNr = 0;
 
 	public Triangle(Point p1, Point p2, Point p3, boolean filled) {
+		instanceNr++;
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
@@ -164,6 +166,21 @@ public class Triangle implements Shape {
 	public void setLineWidth(float lineWidth) {
 		this.lineWidth = lineWidth;
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean b) {
+		this.isFilled = b;
+		
+	}
+
+	public String toString() {
+		return "Triangle " + instanceNr;
 	}
 
 }

@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 public class Rectangle extends RectangularShape {
-	private boolean isFilled;
 	private Rectangle2D rect2d;
 
 	public Rectangle(double x, double y, double width, double height,
@@ -37,7 +36,9 @@ public class Rectangle extends RectangularShape {
 
 	@Override
 	public boolean checkHit(Point point) {
-		return this.rect2d.contains(point);
+		boolean hit = this.rect2d.contains(point);
+		logger.debug("Did " + (hit ? "not " : "") + "hit me");
+		return hit;
 	}
 
 }

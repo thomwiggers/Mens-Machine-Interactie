@@ -1,19 +1,13 @@
 package nl.PAINt.shapes;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
 public class Ellipse extends RectangularShape {
-	private final boolean isFilled;
-
-	private Color color;
 
 	Ellipse2D el2d;
-
-	private Color lineColor;
 
 	public Ellipse(final double x, final double y, final double width,
 			final double height, final boolean isFilled) {
@@ -26,8 +20,6 @@ public class Ellipse extends RectangularShape {
 	@Override
 	public void draw(final Graphics2D g2d) {
 		el2d.setFrame(x, y, width, height);
-
-
 
 		if (isFilled) {
 			g2d.setPaint(color);

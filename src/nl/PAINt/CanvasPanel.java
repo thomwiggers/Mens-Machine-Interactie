@@ -20,6 +20,8 @@ import nl.PAINt.shapes.RectangularShape;
 import nl.PAINt.shapes.Shape;
 import nl.PAINt.shapes.Triangle;
 
+import org.apache.log4j.Logger;
+
 public class CanvasPanel extends JPanel {
 
 	/**
@@ -36,7 +38,10 @@ public class CanvasPanel extends JPanel {
 	private Color lineColor = Color.black;
 	private float lineWidth = 3.0f;
 	private MessageServer apiServer = null;
+	private Color activeColor;
 
+	private Logger logger = Logger.getLogger(getClass());
+	
 	/**
 	 * @param apiServer
 	 *          the apiServer to set
@@ -46,10 +51,11 @@ public class CanvasPanel extends JPanel {
 	}
 
 	public CanvasPanel() {
+		
 		setPreferredSize(new Dimension(1280, 900));
 		setBackground(Color.WHITE);
 		mode = PanelMode.RECTANGLE;
-		displayList = new ArrayList<Shape>();
+		displayList = new ArrayList<>();
 		drawListener = new DrawModeListener();
 		modeListener = new ModeListener();
 		resizeListener = new ResizeListener();
@@ -71,9 +77,13 @@ public class CanvasPanel extends JPanel {
 	}
 
 	public void setMode(final PanelMode pm) {
+		logger.info("Setting mode " + pm.name());
+
+		logger.debug("removing mouselisteners");
 		for (final MouseListener lsnr : getMouseListeners()) {
 			removeMouseListener(lsnr);
 		}
+		logger.debug("removing mousemotionlisteners");
 		for (final MouseMotionListener lsnr : getMouseMotionListeners()) {
 			removeMouseMotionListener(lsnr);
 		}
@@ -81,16 +91,19 @@ public class CanvasPanel extends JPanel {
 		for (final Shape s : displayList) {
 			s.setSelectionBox(false);
 		}
+
 		this.repaint();
 
 		if (pm == PanelMode.DELETE || pm == PanelMode.MOVE) {
+			logger.debug("Adding modeListener");
 			addMouseListener(modeListener);
 			addMouseMotionListener(modeListener);
 		} else if (pm == PanelMode.RESIZE) {
+			logger.debug("Adding resizelistener");
 			addMouseListener(resizeListener);
 			addMouseMotionListener(resizeListener);
 		} else {
-
+			logger.debug("adding drawlistener");
 			addMouseListener(drawListener);
 			addMouseMotionListener(drawListener);
 		}
@@ -105,21 +118,26 @@ public class CanvasPanel extends JPanel {
 		private Point startPoint;
 		private Shape currentlyDrawing = null;
 		private boolean triangleLastPhase = false;
+		private Logger logger = Logger.getLogger(DrawModeListener.class);
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
+			logger.debug("Mouse clicked");
 		}
 
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
+			logger.debug("mouse entered object");
 		}
 
 		@Override
 		public void mouseExited(final MouseEvent arg0) {
+			logger.debug("mouse exited object");
 		}
 
 		@Override
 		public void mousePressed(final MouseEvent arg0) {
+			logger.info("Mouse pressed ");
 			if (currentlyDrawing != null) {
 				if (currentlyDrawing instanceof Triangle) {
 					currentlyDrawing.setSelectionBox(false);
@@ -135,19 +153,24 @@ public class CanvasPanel extends JPanel {
 
 			switch (mode) {
 			case ELLIPSE:
+				logger.info("Currently drawing " + mode.name());
 				currentlyDrawing = new Ellipse(startPoint.x, startPoint.y, 0, 0, false);
 				break;
 			case ELL_FILLED:
+				logger.info("Currently drawing " + mode.name());
 				currentlyDrawing = new Ellipse(startPoint.x, startPoint.y, 0, 0, true);
 				break;
 			case RECTANGLE:
+				logger.info("Currently drawing " + mode.name());
 				currentlyDrawing = new Rectangle(startPoint.x, startPoint.y, 0, 0,
 						false);
 				break;
 			case RECT_FILLED:
+				logger.info("Currently drawing " + mode.name());
 				currentlyDrawing = new Rectangle(startPoint.x, startPoint.y, 0, 0, true);
 				break;
 			case TRIANGLE:
+				logger.info("Currently drawing " + mode.name());
 				currentlyDrawing = new Triangle(arg0.getPoint(), arg0.getPoint(),
 						arg0.getPoint(), false);
 				break;
@@ -155,6 +178,7 @@ public class CanvasPanel extends JPanel {
 			case MOVE:
 			case RESIZE:
 			default:
+				logger.error("unsupported mode");
 				throw new IllegalArgumentException("Operation " + mode.toString()
 						+ " not supported");
 			}
@@ -170,10 +194,12 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseReleased(final MouseEvent arg0) {
+			logger.debug("Mouse released");
 			if (mode != PanelMode.TRIANGLE) {
 				currentlyDrawing.setSelectionBox(false);
 				currentlyDrawing = null;
 			} else if (currentlyDrawing != null) {
+				logger.info("second triangle phase entered");
 				triangleLastPhase = true;
 			}
 
@@ -211,27 +237,30 @@ public class CanvasPanel extends JPanel {
 	private class ModeListener implements MouseInputListener {
 		private Point movePoint;
 		private Shape currentlyMoving;
+		private Logger logger = Logger.getLogger(getClass());
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
-
+			logger.debug("Mouse clicked");
 		}
 
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
-
+			logger.debug("Mouse entered");
 		}
 
 		@Override
 		public void mouseExited(final MouseEvent arg0) {
-
+			logger.debug("mouse exited");
 		}
 
 		@Override
 		public void mousePressed(final MouseEvent arg0) {
+			logger.info("Mouse Pressed");
 			if (mode == PanelMode.MOVE) {
 				for (final Shape shape : displayList) {
 					if (shape.checkHit(arg0.getPoint())) {
+						logger.info("Starting to move " + shape.toString());
 						movePoint = arg0.getPoint();
 						currentlyMoving = shape;
 						currentlyMoving.setSelectionBox(true);
@@ -245,6 +274,7 @@ public class CanvasPanel extends JPanel {
 				for (int i = displayList.size() - 1; i >= 0; i--) {
 					final Shape shape = displayList.get(i);
 					if (shape.checkHit(arg0.getPoint())) {
+						logger.info("Removing object " + shape.toString());
 						displayList.remove(shape);
 						break;
 					}
@@ -257,8 +287,10 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseReleased(final MouseEvent arg0) {
+			logger.debug("released mouse");
 			movePoint = null;
 			if (currentlyMoving != null) {
+				logger.info("Stopped moving " + currentlyMoving.toString());
 				currentlyMoving.setSelectionBox(false);
 				CanvasPanel.this.repaint();
 			}
@@ -268,7 +300,6 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseDragged(final MouseEvent arg0) {
-
 			if (movePoint == null && currentlyMoving == null)
 				return;
 			else {
@@ -291,6 +322,7 @@ public class CanvasPanel extends JPanel {
 		protected Shape selected = null;
 		private Point startPoint;
 		private Point movePoint;
+		private Logger logger = Logger.getLogger(ResizeListener.class);
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
@@ -308,9 +340,11 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mousePressed(final MouseEvent arg0) {
+			logger.debug("Pressed mouse");
 			// nieuw dingetje selecten
 			if (selected == null || !selected.lockCorner(arg0.getPoint())) {
 				if (selected != null) {
+					logger.info("Deselected " + selected.toString());
 					selected.setSelectionBox(false);
 				}
 
@@ -318,6 +352,7 @@ public class CanvasPanel extends JPanel {
 					final Shape shape = displayList.get(i);
 					if (shape.checkHit(arg0.getPoint())) {
 						selected = shape;
+						logger.info("Selected " + shape.toString());
 						selected.setSelectionBox(true);
 						break;
 					}
@@ -340,6 +375,7 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseReleased(final MouseEvent arg0) {
+			logger.debug("Mouse released");
 			startPoint = null;
 			movePoint = null;
 			if (selected != null) {
@@ -349,6 +385,7 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseDragged(final MouseEvent arg0) {
+			// TODO verder met logging
 			if (startPoint != null && selected != null) {
 				if (selected instanceof Triangle) {
 					((Triangle) selected).moveCorner(arg0.getPoint());
@@ -394,7 +431,7 @@ public class CanvasPanel extends JPanel {
 		this.lineColor = color;
 		if (resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
-				((ResizeListener) resizeListener).selected.setLineColor(color);
+				((ResizeListener) resizeListener).selected.setLineColor(lineColor);
 				repaint();
 			}
 		}
@@ -419,23 +456,34 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void applyLineColor() {
-		// TODO Auto-generated method stub
-
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setLineColor(activeColor);
+			repaint();
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public void applyFill() {
-		// TODO Auto-generated method stub
-
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setColor(activeColor);
+			rs.selected.setFilled(true);
+			repaint();
+		}
 	}
 
 	/**
 	 * 
 	 */
 	public void removeFill() {
-		// TODO Auto-generated method stub
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			rs.selected.setFilled(false);
+			repaint();
+		}
 
 	}
 
@@ -443,7 +491,12 @@ public class CanvasPanel extends JPanel {
 	 * 
 	 */
 	public void deleteSelected() {
-		// TODO Auto-generated method stub
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			displayList.remove(rs.selected);
+			rs.selected = null;
+			repaint();
+		}
 
 	}
 
@@ -496,6 +549,19 @@ public class CanvasPanel extends JPanel {
 		Shape temp = displayList.get(a);
 		displayList.set(a, displayList.get(b));
 		displayList.set(b, temp);
+	}
 
+	/**
+	 * @param color
+	 */
+	public void setActiveColor(Color color) {
+		this.activeColor = color;
+		
+	}
+
+	public void repaint() {
+		if (logger != null)
+			logger.debug("Repainting");
+		super.repaint();
 	}
 }
