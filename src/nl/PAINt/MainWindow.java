@@ -19,7 +19,7 @@ public class MainWindow extends JFrame {
 	WaitPanel wpanel;
 
 	public MainWindow() {
-		new MessageServer(this);
+		
 		
 		wpanel = new WaitPanel();
 		super.add(wpanel);
@@ -28,7 +28,13 @@ public class MainWindow extends JFrame {
 		this.knopjes = new KnopjesPanel(canvas);
 		this.statusbar = new StatusbarPanel(getWidth());
 		this.optiesPanel = new OptiesPanel(canvas);
+		
+		new MessageServer(this);
 
+	}
+	
+	public CanvasPanel getCanvas(){
+		return this.canvas;
 	}
 	
 	public void connected(){
@@ -117,13 +123,13 @@ public class MainWindow extends JFrame {
 				setMode(PanelMode.RESIZE);
 				break;
 			case "Non-filled rectangle":
-				setMode(PanelMode.RECT);
+				setMode(PanelMode.RECTANGLE);
 				break;
 			case "Filled rectangle":
 				setMode(PanelMode.TRIANGLE);
 				break;
 			case "Non-filled ellipse":
-				setMode(PanelMode.ELL);
+				setMode(PanelMode.ELLIPSE);
 				break;
 			case "Filled ellipse":
 				setMode(PanelMode.ELL_FILLED);

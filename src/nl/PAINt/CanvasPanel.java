@@ -35,11 +35,20 @@ public class CanvasPanel extends JPanel {
 	private Color color = Color.BLACK;
 	private Color lineColor = Color.black;
 	private float lineWidth = 3.0f;
+	private MessageServer apiServer = null;
+
+	/**
+	 * @param apiServer
+	 *          the apiServer to set
+	 */
+	public void setApiServer(MessageServer apiServer) {
+		this.apiServer = apiServer;
+	}
 
 	public CanvasPanel() {
 		setPreferredSize(new Dimension(1280, 900));
 		setBackground(Color.WHITE);
-		mode = PanelMode.RECT;
+		mode = PanelMode.RECTANGLE;
 		displayList = new ArrayList<Shape>();
 		drawListener = new DrawModeListener();
 		modeListener = new ModeListener();
@@ -86,6 +95,10 @@ public class CanvasPanel extends JPanel {
 			addMouseMotionListener(drawListener);
 		}
 		mode = pm;
+
+		if (this.apiServer != null) {
+			apiServer.sendContext(mode);
+		}
 	}
 
 	private class DrawModeListener implements MouseInputListener {
@@ -95,19 +108,14 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
-
 		}
 
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void mouseExited(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -126,13 +134,13 @@ public class CanvasPanel extends JPanel {
 			startPoint = arg0.getPoint();
 
 			switch (mode) {
-			case ELL:
+			case ELLIPSE:
 				currentlyDrawing = new Ellipse(startPoint.x, startPoint.y, 0, 0, false);
 				break;
 			case ELL_FILLED:
 				currentlyDrawing = new Ellipse(startPoint.x, startPoint.y, 0, 0, true);
 				break;
-			case RECT:
+			case RECTANGLE:
 				currentlyDrawing = new Rectangle(startPoint.x, startPoint.y, 0, 0,
 						false);
 				break;
@@ -211,13 +219,11 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void mouseExited(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -293,14 +299,11 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void mouseExited(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -366,7 +369,6 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseMoved(final MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -411,5 +413,45 @@ public class CanvasPanel extends JPanel {
 				repaint();
 			}
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void applyLineColor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 
+	 */
+	public void applyFill() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 
+	 */
+	public void removeFill() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 
+	 */
+	public void deleteSelected() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @param i
+	 */
+	public void rotateSelected(int i) {
+		// TODO Auto-generated method stub
+
 	}
 }
