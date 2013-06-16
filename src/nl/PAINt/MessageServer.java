@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -185,8 +186,22 @@ public class MessageServer {
 							throw new IllegalArgumentException(
 									"Illegal parameter for operation rotate: " + lineParts[1]);
 						}
+					case "z-index":
+						if (lineParts.length < 2)
+							throw new IllegalArgumentException(
+									"missing parameter for z-index");
+						switch (lineParts[1]) {
+						case "+":
+							canvas.moveSelectedForward();
+							break;
+						case "-":
+							canvas.moveSelectedBackward();
+							break;
+						}
+						break;
+					default:
+						throw new IllegalArgumentException("Unknown command specified: ");
 					}
-
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

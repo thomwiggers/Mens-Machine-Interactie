@@ -454,4 +454,48 @@ public class CanvasPanel extends JPanel {
 		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * 
+	 */
+	public void moveSelectedForward() {
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			int index = this.displayList.indexOf(rs.selected);
+			if (index > 0) {
+				swapDisplayList(index - 1, index);
+				repaint();
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void moveSelectedBackward() {
+		ResizeListener rs = getResizeListener();
+		if (rs.selected != null) {
+			int index = this.displayList.indexOf(rs.selected);
+			if (displayList.size() - 1 > index && index != -1) {
+				swapDisplayList(index, index + 1);
+				repaint();
+			}
+		}
+
+
+	}
+
+	public ResizeListener getResizeListener() {
+		if (resizeListener instanceof ResizeListener)
+			return (ResizeListener) resizeListener;
+		else
+			return null;
+	}
+
+	private void swapDisplayList(int a, int b) {
+		Shape temp = displayList.get(a);
+		displayList.set(a, displayList.get(b));
+		displayList.set(b, temp);
+
+	}
 }
