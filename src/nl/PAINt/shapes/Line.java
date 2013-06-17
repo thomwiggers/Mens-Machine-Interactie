@@ -55,8 +55,8 @@ public class Line implements Shape {
 
 		if (drawSelectionBox) {
 			g2d.setColor(Color.BLUE);
-			g2d.drawRect(p1.x - 5, p1.y - 5, 10, 10);
-			g2d.drawRect(p2.x - 5, p2.y - 5, 10, 10);
+			g2d.fillRect(p1.x - 5, p1.y - 5, 10, 10);
+			g2d.fillRect(p2.x - 5, p2.y - 5, 10, 10);
 
 		}
 		g2d.setColor(oldColor);
