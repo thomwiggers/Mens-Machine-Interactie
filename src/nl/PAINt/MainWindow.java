@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
@@ -31,6 +30,18 @@ public class MainWindow extends JFrame {
 		wpanel = new WaitPanel();
 		super.add(wpanel);
 
+		// Logging
+		BasicConfigurator.configure();
+		try {
+			FileAppender fa = new FileAppender(new SimpleLayout(), "PAINt.log", true);
+			Logger.getRootLogger().addAppender(fa);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Logger.getRootLogger().setLevel(Level.OFF);
+		logger = Logger.getLogger(getClass());
+
+
 		this.canvas = new CanvasPanel();
 		this.knopjes = new KnopjesPanel(canvas);
 		this.statusbar = new StatusbarPanel(getWidth());
@@ -47,16 +58,6 @@ public class MainWindow extends JFrame {
 	public void connected() {
 		super.remove(wpanel);
 
-		// Logging
-		BasicConfigurator.configure();
-		try {
-			FileAppender fa = new FileAppender(new SimpleLayout(), "PAINt.log",
-					true);
-			Logger.getRootLogger().addAppender(fa);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		logger = Logger.getLogger(getClass());
 		logger.info("Started Logging");
 
 		logger.debug("initialising GUI");

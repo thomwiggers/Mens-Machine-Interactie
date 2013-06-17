@@ -15,10 +15,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -233,9 +233,11 @@ public class MessageServer {
 		Queue<String> queue;
 		Logger logger = Logger.getLogger(StreamReader.class);
 
+
 		public StreamWriter(BufferedWriter outputWriter, Queue<String> queue) {
 			writer = outputWriter;
 			this.queue = queue;
+			logger.setLevel(Level.ALL);
 		}
 
 		/*

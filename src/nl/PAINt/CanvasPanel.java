@@ -106,6 +106,7 @@ public class CanvasPanel extends JPanel {
 			logger.debug("adding drawlistener");
 			addMouseListener(drawListener);
 			addMouseMotionListener(drawListener);
+			apiServer.sendContext(PanelMode.NONE);
 		}
 		mode = pm;
 
@@ -342,8 +343,8 @@ public class CanvasPanel extends JPanel {
 			if (selected == null || !selected.lockCorner(arg0.getPoint())) {
 				if (selected != null) {
 					logger.info("Deselected " + selected.toString());
-					
 					selected.setSelectionBox(false);
+					selected = null;
 				}
 
 				for (int i = displayList.size() - 1; i >= 0; i--) {
@@ -356,11 +357,12 @@ public class CanvasPanel extends JPanel {
 						break;
 					}
 				}
-			}
 
-			if (selected == null){
-				CanvasPanel.this.apiServer.sendContext(PanelMode.NONE);
-				return;
+				if (selected == null) {
+					CanvasPanel.this.apiServer.sendContext(PanelMode.NONE);
+					repaint();
+					return;
+				}
 			}
 				
 
