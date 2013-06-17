@@ -15,8 +15,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -31,7 +31,7 @@ public class MessageServer {
 	Socket socket;
 	Logger logger = Logger.getLogger(MessageServer.class);
 
-	Queue<String> outqueue = new LinkedList<>();
+	BlockingQueue<String> outqueue = new LinkedBlockingQueue<>();
 	private CanvasPanel canvas;
 
 	/**
@@ -63,10 +63,10 @@ public class MessageServer {
 
 					try {
 						BufferedReader reader = new BufferedReader(new InputStreamReader(
-								socket.getInputStream()));
+								socket.getInputStream(), "UTF-8"));
 
 						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
-								socket.getOutputStream()));
+								socket.getOutputStream(), "UTF-8"));
 
 						StreamReader sr = new StreamReader(reader, window);
 
@@ -228,10 +228,10 @@ public class MessageServer {
 	class StreamWriter implements Runnable {
 
 		BufferedWriter writer;
-		Queue<String> queue;
+		BlockingQueue<String> queue;
 		Logger logger = Logger.getLogger(StreamReader.class);
 
-		public StreamWriter(BufferedWriter outputWriter, Queue<String> queue) {
+		public StreamWriter(BufferedWriter outputWriter, BlockingQueue<String> queue) {
 			writer = outputWriter;
 			this.queue = queue;
 			logger.setLevel(Level.ALL);
@@ -247,13 +247,8 @@ public class MessageServer {
 
 			try {
 				while (true) {
-					Thread.sleep(50);
 
-					String poll = null;
-					synchronized (queue) {
-						poll = queue.poll();
-					}
-
+					String poll = queue.take();
 					String line = null;
 					if (poll != null) {
 						line = poll.trim();
@@ -283,36 +278,34 @@ public class MessageServer {
 	 * @param mode
 	 */
 	public void sendContext(PanelMode mode) {
-		synchronized (outqueue) {
-			logger.info("Sending context for mode " + mode.toString());
-			switch (mode) {
-			case DELETE:
-				break;
-			case ELLIPSE:
-			case ELL_FILLED:
-				this.outqueue.add("context ellipse");
-				break;
-			case LINE:
-				this.outqueue.add("context line");
-				break;
-			case MOVE:
-			case SELECT:
-				this.outqueue.add("context select");
-				break;
-			case RECTANGLE:
-			case RECT_FILLED:
-				this.outqueue.add("context rectangle");
-				break;
-			case TEXT:
-				this.outqueue.add("context text");
-				break;
-			case TRIANGLE:
-				this.outqueue.add("context triangle");
-				break;
-			case NONE:
-				this.outqueue.add("context none");
-				break;
-			}
+		logger.info("Sending context for mode " + mode.toString());
+		switch (mode) {
+		case DELETE:
+			break;
+		case ELLIPSE:
+		case ELL_FILLED:
+			this.outqueue.add("context ellipse");
+			break;
+		case LINE:
+			this.outqueue.add("context line");
+			break;
+		case MOVE:
+		case SELECT:
+			this.outqueue.add("context select");
+			break;
+		case RECTANGLE:
+		case RECT_FILLED:
+			this.outqueue.add("context rectangle");
+			break;
+		case TEXT:
+			this.outqueue.add("context text");
+			break;
+		case TRIANGLE:
+			this.outqueue.add("context triangle");
+			break;
+		case NONE:
+			this.outqueue.add("context none");
+			break;
 		}
 	}
 
