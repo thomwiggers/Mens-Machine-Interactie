@@ -28,6 +28,7 @@ public class Line implements Shape {
 	private boolean drawSelectionBox = false;
 	private float lineWidth;
 	private Color lineColor;
+	private Point lockedCorner;
 
 	/**
 	 * 
@@ -128,8 +129,18 @@ public class Line implements Shape {
 	 * @see nl.PAINt.shapes.Shape#lockCorner(java.awt.Point)
 	 */
 	@Override
-	public boolean lockCorner(Point point) {
-		// TODO Auto-generated method stub
+	public boolean lockCorner(Point p) {
+		if (p.x >= p1.x - 5 && p.x <= p1.x + 5 && p.y >= p1.y - 5
+				&& p.y <= p1.y + 5) {
+			lockedCorner = p1;
+			return true;
+		}
+
+		if (p.x >= p2.x - 5 && p.x <= p2.x + 5 && p.y >= p2.y - 5
+				&& p.y <= p2.y + 5) {
+			lockedCorner = p2;
+			return true;
+		}
 		return false;
 	}
 
@@ -140,8 +151,7 @@ public class Line implements Shape {
 	 */
 	@Override
 	public void unlockCorner() {
-		// TODO Auto-generated method stub
-
+		this.lockedCorner = null;
 	}
 
 	/*
@@ -213,4 +223,7 @@ public class Line implements Shape {
 		return false;
 	}
 
+	public void moveCorner(Point p1) {
+		this.lockedCorner.move(p1.x, p1.y);
+	}
 }

@@ -400,6 +400,8 @@ public class CanvasPanel extends JPanel {
 			if (startPoint != null && selected != null) {
 				if (selected instanceof Triangle) {
 					((Triangle) selected).moveCorner(arg0.getPoint());
+				} else if (selected instanceof Line) {
+					((Line) selected).moveCorner(arg0.getPoint());
 				} else {
 					((RectangularShape) selected).setFrameFromCorner(startPoint,
 							arg0.getPoint());
