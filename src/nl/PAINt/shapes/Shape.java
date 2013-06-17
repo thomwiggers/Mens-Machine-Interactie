@@ -40,4 +40,9 @@ public interface Shape {
 	public void setFilled(boolean b);
 	
 	public PanelMode getContext();
+
+	/**
+	 * @param i
+	 */
+	public void rotate(int i);
 }
