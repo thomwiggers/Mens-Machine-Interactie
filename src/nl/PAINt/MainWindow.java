@@ -12,9 +12,8 @@ import javax.swing.JMenuItem;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.PatternLayout;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -3312756899988117703L;
@@ -33,12 +32,12 @@ public class MainWindow extends JFrame {
 		// Logging
 		BasicConfigurator.configure();
 		try {
-			FileAppender fa = new FileAppender(new SimpleLayout(), "PAINt.log", true);
+			FileAppender fa = new FileAppender(new PatternLayout(
+					"%-6r [%15.15t] %-5p %30.30c %x - %m%n"), "PAINt.log", true);
 			Logger.getRootLogger().addAppender(fa);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Logger.getRootLogger().setLevel(Level.OFF);
 		logger = Logger.getLogger(getClass());
 
 
