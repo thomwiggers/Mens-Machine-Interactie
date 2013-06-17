@@ -8,6 +8,7 @@
  */
 package nl.PAINt.shapes;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -24,6 +25,8 @@ public class Line implements Shape {
 	private Point p1;
 	private Point p2;
 	private boolean drawSelectionBox = false;
+	private float lineWidth;
+	private Color lineColor;
 
 	/**
 	 * 
@@ -40,6 +43,7 @@ public class Line implements Shape {
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
+		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
 
 		if (drawSelectionBox) {
@@ -149,7 +153,7 @@ public class Line implements Shape {
 	 */
 	@Override
 	public void setLineColor(Color color) {
-		// TODO Auto-generated method stub
+		this.lineColor = color;
 
 	}
 
@@ -161,7 +165,7 @@ public class Line implements Shape {
 	@Override
 	public void setLineWidth(float lineWidth) {
 
-		this.setLineWidth(lineWidth);
+		this.lineWidth = lineWidth;
 
 	}
 
