@@ -33,7 +33,8 @@ public class MainWindow extends JFrame {
 		BasicConfigurator.configure();
 		try {
 			FileAppender fa = new FileAppender(new PatternLayout(
-					"%-6r [%15.15t] %-5p %30.30c %x - %m%n"), "PAINt.log", true);
+					" %d{HH:mm:ss,SSS} [%17.17t] %-5p %32.32c %x - %m%n"), "PAINt.log",
+					true);
 			Logger.getRootLogger().addAppender(fa);
 		} catch (IOException e) {
 			e.printStackTrace();
