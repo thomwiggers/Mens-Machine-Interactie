@@ -91,6 +91,7 @@ public class CanvasPanel extends JPanel {
 		for (final Shape s : displayList) {
 			s.setSelectionBox(false);
 		}
+		
 
 		this.repaint();
 
@@ -327,6 +328,7 @@ public class CanvasPanel extends JPanel {
 
 		}
 
+
 		@Override
 		public void mouseEntered(final MouseEvent arg0) {
 
@@ -420,7 +422,7 @@ public class CanvasPanel extends JPanel {
 	public void setColor(Color color) {
 		logger.debug("Selected color: " + color.toString());
 		this.color = color;
-		if (resizeListener instanceof ResizeListener) {
+		if (this.mode == PanelMode.SELECT && resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
 				((ResizeListener) resizeListener).selected.setColor(color);
 				repaint();
@@ -434,7 +436,7 @@ public class CanvasPanel extends JPanel {
 	public void setLineColor(Color color) {
 		logger.debug("selected line color " + color.toString());
 		this.lineColor = color;
-		if (resizeListener instanceof ResizeListener) {
+		if (this.mode == PanelMode.SELECT && resizeListener instanceof ResizeListener) {
 			if (((ResizeListener) resizeListener).selected != null) {
 				((ResizeListener) resizeListener).selected.setLineColor(lineColor);
 				repaint();
@@ -449,7 +451,7 @@ public class CanvasPanel extends JPanel {
 	public void setLineWidth(float f) {
 		logger.debug("Selected line width: " + f);
 		lineWidth = f;
-		if (resizeListener instanceof ResizeListener) {
+		if (this.mode == PanelMode.SELECT && resizeListener instanceof ResizeListener) {
 			ResizeListener rsl = (ResizeListener) resizeListener;
 			if (rsl.selected != null) {
 				rsl.selected.setLineWidth(f);
@@ -464,7 +466,7 @@ public class CanvasPanel extends JPanel {
 	public void applyLineColor() {
 		logger.debug("Trying to apply line color ");
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT && rs.selected != null) {
 			rs.selected.setLineColor(activeColor);
 			repaint();
 		}
@@ -476,7 +478,7 @@ public class CanvasPanel extends JPanel {
 	public void applyFill() {
 		logger.debug("Trying to apply fill ");
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT &&  rs.selected != null) {
 			rs.selected.setColor(activeColor);
 			rs.selected.setFilled(true);
 			repaint();
@@ -489,7 +491,7 @@ public class CanvasPanel extends JPanel {
 	public void removeFill() {
 		logger.debug("Trying to remove fill ");
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT &&  rs.selected != null) {
 			rs.selected.setFilled(false);
 			repaint();
 		}
@@ -502,7 +504,7 @@ public class CanvasPanel extends JPanel {
 	public void deleteSelected() {
 		logger.debug("Trying to delete shape");
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT && rs.selected != null) {
 			displayList.remove(rs.selected);
 			logger.info("Deleted " + rs.selected.toString());
 			rs.selected = null;
@@ -526,7 +528,7 @@ public class CanvasPanel extends JPanel {
 	public void moveSelectedForward() {
 		logger.debug("Trying to move selected forward");
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT && rs.selected != null) {
 			int index = this.displayList.indexOf(rs.selected);
 			if (index > 0) {
 				logger.info("moving shape forwards");
@@ -541,7 +543,7 @@ public class CanvasPanel extends JPanel {
 	 */
 	public void moveSelectedBackward() {
 		ResizeListener rs = getResizeListener();
-		if (rs.selected != null) {
+		if (this.mode == PanelMode.SELECT && rs.selected != null) {
 			int index = this.displayList.indexOf(rs.selected);
 			if (displayList.size() - 1 > index && index != -1) {
 				logger.info("moving shape backwards");
