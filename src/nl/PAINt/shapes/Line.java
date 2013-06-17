@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Stroke;
 
 import nl.PAINt.PanelMode;
 
@@ -43,19 +44,26 @@ public class Line implements Shape {
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
+		Stroke oldStroke = g2d.getStroke();
+		Color oldColor = g2d.getColor();
+
+		this.setColor(lineColor);
 		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+
+		g2d.setStroke(oldStroke);
 
 		if (drawSelectionBox) {
 			g2d.setColor(Color.BLUE);
 			g2d.drawRect(p1.x - 5, p1.y - 5, 10, 10);
 			g2d.drawRect(p2.x - 5, p2.y - 5, 10, 10);
+
 		}
+		g2d.setColor(oldColor);
 	}
 
 	public void setSecondPoint(Point p) {
 		p2 = p;
-
 
 	}
 
