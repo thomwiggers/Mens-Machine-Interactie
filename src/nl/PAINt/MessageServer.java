@@ -261,7 +261,7 @@ public class MessageServer {
 					if (line != null) {
 						try {
 							logger.debug("Sending command " + line);
-							writer.write(line + "\n");
+							writer.write(line + "\r\n");
 							writer.flush();
 						} catch (IOException e) {
 							logger.error("IO error", e);
