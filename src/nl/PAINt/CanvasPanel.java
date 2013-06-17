@@ -518,8 +518,10 @@ public class CanvasPanel extends JPanel {
 	 */
 	public void rotateSelected(int i) {
 		logger.debug("rotating selected");
-		// TODO Auto-generated method stub
-
+		ResizeListener rs = getResizeListener();
+		if (this.mode == PanelMode.SELECT && rs.selected != null) {
+			rs.selected.rotate(i);
+		}
 	}
 
 	/**

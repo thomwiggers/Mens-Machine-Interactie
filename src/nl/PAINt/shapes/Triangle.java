@@ -189,4 +189,15 @@ public class Triangle implements Shape {
 		return PanelMode.TRIANGLE;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see nl.PAINt.shapes.Shape#rotate(int)
+	 */
+	@Override
+	public void rotate(int i) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

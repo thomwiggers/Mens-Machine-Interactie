@@ -33,6 +33,7 @@ public abstract class RectangularShape implements Shape {
 	private CornerLock lockedCorner = null;
 	private Point xyLock = null;
 	private Point whLock = null;
+	private double angle = 10;
 	private static int instanceNr = 0;
 
 
@@ -72,7 +73,10 @@ public abstract class RectangularShape implements Shape {
 	}
 
 	protected void drawSelectionBox(final Graphics2D g2d) {
+
 		Rectangle2D r2d = new Rectangle2D.Double(x, y, width, height);
+		// g2d.rotate(angle, x + width / 2, y + height / 2);
+
 		g2d.setPaint(Color.BLACK);
 		final float dash[] = { 7.0f };
 		g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
@@ -93,6 +97,8 @@ public abstract class RectangularShape implements Shape {
 
 		r2d = new Rectangle2D.Double(x - 5, y + height - 5, 10, 10);
 		g2d.fill(r2d);
+
+
 	}
 
 	public boolean lockCorner(final Point p) {
@@ -181,5 +187,9 @@ public abstract class RectangularShape implements Shape {
 
 	public String toString() {
 		return getClass().getSimpleName() + " " + instanceNr;
+	}
+
+	public void rotate(int i) {
+		this.angle += (i / 180) * Math.PI;
 	}
 }
