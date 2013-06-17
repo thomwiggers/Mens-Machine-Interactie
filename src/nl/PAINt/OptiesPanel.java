@@ -39,14 +39,15 @@ public class OptiesPanel extends JPanel {
 	private JColorChooser colorPicker;
 
 	private Logger logger;
+	private boolean knopjes;
 
 	/**
 	 * @param canvas
 	 * 
 	 */
-	public OptiesPanel(CanvasPanel theCanvas) {
+	public OptiesPanel(CanvasPanel theCanvas, boolean knopjesenabled) {
 		logger = Logger.getLogger(getClass());
-
+		this.knopjes = knopjesenabled;
 		canvas = theCanvas;
 
 		setBackground(Color.black);
@@ -55,8 +56,9 @@ public class OptiesPanel extends JPanel {
 		this.setLayout(new GridLayout(3, 1));
 
 		initColorPicker();
-		
-		this.add(new SliderPanel());
+		if (knopjesenabled) {
+			this.add(new SliderPanel());
+		}
 		
 
 	}
@@ -66,7 +68,11 @@ public class OptiesPanel extends JPanel {
 		colorPicker = new JColorChooser();
 		PreviewPanel pp = new PreviewPanel();
 		colorPicker.getSelectionModel().addChangeListener(pp);
-		colorPicker.setPreviewPanel(pp);
+		if (knopjes) {
+			colorPicker.setPreviewPanel(pp);
+		} else {
+			colorPicker.setPreviewPanel(null);
+		}
 		boolean skipped = false;
 		for (AbstractColorChooserPanel panel : colorPicker.getChooserPanels()) {
 			if (!skipped) {
@@ -179,7 +185,59 @@ public class OptiesPanel extends JPanel {
 			lijnDikte.addChangeListener(this);
 
 			this.add(lijnDikte);
+
+			JButton knopvooruit = new JButton("haal naar voren");
+			knopvooruit.setActionCommand("z-index+");
+			knopvooruit.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					logger.info("naar voren geklikt");
+					canvas.moveSelectedBackward();
+				}
+			});
+
+			JButton knopachteruit = new JButton("haal naar achteren");
+			knopachteruit.setActionCommand("z-index-");
+			knopachteruit.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					logger.info("naar achteren geklikt");
+					canvas.moveSelectedForward();
+				}
+			});
+			
+			JButton knopFill = new JButton("toggle fill");
+			knopFill.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					logger.info("toggledFill geklikt");
+					canvas.toggleFill();
+					
+				}
+			});
+
+			JButton deleteKnopje = new JButton("Delete");
+			deleteKnopje.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					logger.info("pressed deleteselected");
+					canvas.deleteSelected();
+				}
+			});
+
+			if (knopjes) {
+				this.add(knopvooruit);
+				this.add(knopachteruit);
+				this.add(knopFill);
+				this.add(deleteKnopje);
+			}
+
 		}
+
 
 		/*
 		 * (non-Javadoc)

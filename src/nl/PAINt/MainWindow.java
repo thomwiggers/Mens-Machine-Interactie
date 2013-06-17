@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
 	private OptiesPanel optiesPanel;
 	WaitPanel wpanel;
 	private Logger logger;
+	private boolean jemoeder = true;
 
 	public MainWindow() {
 
@@ -39,15 +40,18 @@ public class MainWindow extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		logger = Logger.getLogger(getClass());
 
-
 		this.canvas = new CanvasPanel();
+
 		this.knopjes = new KnopjesPanel(canvas);
+
 		this.statusbar = new StatusbarPanel(getWidth());
-		this.optiesPanel = new OptiesPanel(canvas);
+		this.optiesPanel = new OptiesPanel(canvas, jemoeder);
 
 		new MessageServer(this);
+		connected();
 
 	}
 
@@ -62,7 +66,12 @@ public class MainWindow extends JFrame {
 
 		logger.debug("initialising GUI");
 
-		super.add(knopjes, BorderLayout.WEST);
+		if (jemoeder) {
+			add(knopjes, BorderLayout.WEST);
+			logger.info("KNOPJES");
+		} else {
+			logger.info("GEEN KNOPJES");
+		}
 		super.add(optiesPanel, BorderLayout.EAST);
 		super.add(canvas);
 		super.add(statusbar, BorderLayout.SOUTH);
