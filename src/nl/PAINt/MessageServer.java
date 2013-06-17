@@ -85,7 +85,6 @@ public class MessageServer {
 						t1.join();
 						t2.interrupt();
 						t2.join();
-						
 
 					} catch (IOException e) {
 						logger.error("IO error while starting threads", e);
@@ -186,8 +185,8 @@ public class MessageServer {
 
 						}
 						break;
-					case "unfill":
-						canvas.removeFill();
+					case "togglefill":
+						canvas.toggleFill();
 						break;
 					case "delete":
 						canvas.deleteSelected();
@@ -272,11 +271,9 @@ public class MessageServer {
 							e.printStackTrace();
 						}
 					}
-
 				}
 			} catch (InterruptedException e) {
-				logger.debug("Interrupted", e);
-				e.printStackTrace();
+				logger.debug("Interrupted, terminating....");
 			}
 		}
 

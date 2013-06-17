@@ -45,4 +45,9 @@ public interface Shape {
 	 * @param i
 	 */
 	public void rotate(int i);
+
+	/**
+	 * @return
+	 */
+	public boolean getFilled();
 }

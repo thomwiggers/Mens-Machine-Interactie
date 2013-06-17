@@ -192,4 +192,8 @@ public abstract class RectangularShape implements Shape {
 	public void rotate(int i) {
 		this.angle += (i / 180) * Math.PI;
 	}
+
+	public boolean getFilled() {
+		return this.isFilled;
+	}
 }

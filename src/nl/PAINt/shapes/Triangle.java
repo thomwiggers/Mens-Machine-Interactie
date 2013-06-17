@@ -200,4 +200,8 @@ public class Triangle implements Shape {
 
 	}
 
+	public boolean getFilled() {
+		return isFilled;
+	}
+
 }

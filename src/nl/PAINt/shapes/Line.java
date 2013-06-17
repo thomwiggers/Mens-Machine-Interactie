@@ -11,17 +11,19 @@ package nl.PAINt.shapes;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 
 import nl.PAINt.PanelMode;
 
 /**
  * @author Luuk Scholten & Thom Wiggers
- *
+ * 
  */
 public class Line implements Shape {
 
 	private Point p1;
 	private Point p2;
+	private boolean drawSelectionBox = false;
 
 	/**
 	 * 
@@ -31,43 +33,86 @@ public class Line implements Shape {
 		this.p2 = p2;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#draw(java.awt.Graphics2D)
 	 */
 	@Override
 	public void draw(Graphics2D g2d) {
 		g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
 
+		if (drawSelectionBox) {
+			g2d.setColor(Color.BLUE);
+			g2d.drawRect(p1.x - 5, p1.y - 5, 10, 10);
+			g2d.drawRect(p2.x - 5, p2.y - 5, 10, 10);
+		}
 	}
 
-	/* (non-Javadoc)
+	public void setSecondPoint(Point p) {
+		p2 = p;
+
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#checkHit(java.awt.Point)
 	 */
 	@Override
 	public boolean checkHit(Point point) {
-		// TODO Auto-generated method stub
-		return false;
+
+		Polygon p = new Polygon();
+
+		int dx = 6;
+
+		double x = p2.x - p1.x;
+		double y = p2.y - p1.y;
+
+		double vx = 1, vy = 1;
+		if (Math.sqrt(x * x + y * y) > 0) {
+			vx = y / Math.sqrt(x * x + y * y);
+			vy = -x / Math.sqrt(x * x + y * y);
+		}
+
+		System.out.println("vx,vy = " + vx + ", " + vy);
+
+		p.addPoint((int) (p1.x + dx * vx), (int) (p1.y + dx * vy));
+		p.addPoint((int) (p1.x - dx * vx), (int) (p1.y - dx * vy));
+		p.addPoint((int) (p2.x - dx * vx), (int) (p2.y - dx * vy));
+		p.addPoint((int) (p2.x + dx * vx), (int) (p2.y + dx * vy));
+
+		return p.contains(point);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#setSelectionBox(boolean)
 	 */
 	@Override
 	public void setSelectionBox(boolean bool) {
-		// TODO Auto-generated method stub
+		this.drawSelectionBox = bool;
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#move(double, double)
 	 */
 	@Override
 	public void move(double dx, double dy) {
-		// TODO Auto-generated method stub
-
+		p1.x += dx;
+		p2.x += dx;
+		p1.y += dy;
+		p2.y += dy;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#lockCorner(java.awt.Point)
 	 */
 	@Override
@@ -76,7 +121,9 @@ public class Line implements Shape {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#unlockCorner()
 	 */
 	@Override
@@ -85,16 +132,19 @@ public class Line implements Shape {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#setColor(java.awt.Color)
 	 */
 	@Override
 	public void setColor(Color color) {
-		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#setLineColor(java.awt.Color)
 	 */
 	@Override
@@ -103,40 +153,52 @@ public class Line implements Shape {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#setLineWidth(float)
 	 */
 	@Override
 	public void setLineWidth(float lineWidth) {
-		// TODO Auto-generated method stub
+
+		this.setLineWidth(lineWidth);
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#setFilled(boolean)
 	 */
 	@Override
 	public void setFilled(boolean b) {
-		// TODO Auto-generated method stub
+		return;
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#getContext()
 	 */
 	@Override
 	public PanelMode getContext() {
-		// TODO Auto-generated method stub
-		return null;
+		return PanelMode.LINE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.PAINt.shapes.Shape#rotate(int)
 	 */
 	@Override
 	public void rotate(int i) {
-		// TODO Auto-generated method stub
+		return;
 
+	}
+
+	public boolean getFilled() {
+		return false;
 	}
 
 }

@@ -23,23 +23,22 @@ public class WaitPanel extends JPanel {
 	public WaitPanel() {
 		setPreferredSize(new Dimension(1440, 900));
 
-		
 		this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-		JLabel welkom = new JLabel("Welkom Subject #1, start deze applicatie via de Nexus met ip ");
+		GridBagConstraints gbc = new GridBagConstraints();
+		JLabel welkom = new JLabel(
+				"Welkom Subject #1, start deze applicatie via de Nexus met ip ");
 		welkom.setFont(new Font("Sans Serif", Font.PLAIN, 40));
 
 		String local_addr = this.getLocalV4Address();
 		JLabel host = new JLabel(local_addr);
 		host.setFont(new Font("Sans Serif", Font.PLAIN, 40));
-		
-		
+
 		this.add(welkom, gbc);
-		
+
 		this.add(host, gbc);
 	}
 
-	private String getLocalV4Address(){
+	private String getLocalV4Address() {
 		Enumeration<NetworkInterface> interfaces = null;
 		try {
 			interfaces = NetworkInterface.getNetworkInterfaces();
@@ -49,8 +48,7 @@ public class WaitPanel extends JPanel {
 		while (interfaces.hasMoreElements()) {
 			NetworkInterface current = interfaces.nextElement();
 			try {
-				if (!current.isUp() || current.isLoopback()
-						|| current.isVirtual())
+				if (!current.isUp() || current.isLoopback() || current.isVirtual())
 					continue;
 			} catch (SocketException e) {
 				// TODO Auto-generated catch block
@@ -61,12 +59,12 @@ public class WaitPanel extends JPanel {
 				InetAddress current_addr = addresses.nextElement();
 				if (current_addr.isLoopbackAddress())
 					continue;
-				if(current_addr instanceof Inet4Address){
+				if (current_addr instanceof Inet4Address) {
 					return current_addr.getHostAddress();
 				}
 			}
 		}
-		
+
 		return "";
 	}
 }

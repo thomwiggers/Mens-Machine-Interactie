@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import nl.PAINt.shapes.Ellipse;
+import nl.PAINt.shapes.Line;
 import nl.PAINt.shapes.Rectangle;
 import nl.PAINt.shapes.RectangularShape;
 import nl.PAINt.shapes.Shape;
@@ -173,6 +174,10 @@ public class CanvasPanel extends JPanel {
 				currentlyDrawing = new Triangle(arg0.getPoint(), arg0.getPoint(),
 						arg0.getPoint(), false);
 				break;
+			case LINE:
+				logger.info("Currently drawing Line");
+				currentlyDrawing = new Line(arg0.getPoint(), arg0.getPoint());
+				break;
 			case DELETE:
 			case MOVE:
 			case SELECT:
@@ -214,10 +219,11 @@ public class CanvasPanel extends JPanel {
 			if (mode == PanelMode.TRIANGLE && !triangleLastPhase) {
 				((Triangle) currentlyDrawing).setSecondPoint(arg0.getPoint());
 				((Triangle) currentlyDrawing).setLastPoint(arg0.getPoint());
-			} else if (mode != PanelMode.TRIANGLE) {
+			} else if (currentlyDrawing instanceof RectangularShape) {
 				((RectangularShape) currentlyDrawing).setFrame(startPoint.x,
 						startPoint.y, newPoint.x - startPoint.x, newPoint.y - startPoint.y);
-
+			} else if (mode == PanelMode.LINE) {
+				((Line) currentlyDrawing).setSecondPoint(newPoint);
 			}
 
 			CanvasPanel.this.repaint();
@@ -488,11 +494,11 @@ public class CanvasPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public void removeFill() {
-		logger.debug("Trying to remove fill ");
+	public void toggleFill() {
+		logger.debug("Trying to toggle fill ");
 		ResizeListener rs = getResizeListener();
 		if (this.mode == PanelMode.SELECT &&  rs.selected != null) {
-			rs.selected.setFilled(false);
+			rs.selected.setFilled(!rs.selected.getFilled());
 			repaint();
 		}
 
