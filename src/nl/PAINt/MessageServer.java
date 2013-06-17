@@ -82,8 +82,16 @@ public class MessageServer {
 						t2.setName("Output Thread");
 						t2.setDaemon(true);
 						t2.start();
+						t1.join();
+						t2.interrupt();
+						t2.join();
+						
+
 					} catch (IOException e) {
 						logger.error("IO error while starting threads", e);
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
