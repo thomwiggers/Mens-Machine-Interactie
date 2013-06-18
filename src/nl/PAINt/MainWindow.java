@@ -52,7 +52,6 @@ public class MainWindow extends JFrame {
 		this.statusbar = new StatusbarPanel(getWidth());
 		this.optiesPanel = new OptiesPanel(canvas, jemoeder);
 
-
 		new MessageServer(this);
 		connected();
 	}
