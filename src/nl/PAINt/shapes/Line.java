@@ -48,7 +48,7 @@ public class Line implements Shape {
 		Stroke oldStroke = g2d.getStroke();
 		Color oldColor = g2d.getColor();
 
-		this.setColor(lineColor);
+		g2d.setColor(lineColor);
 		g2d.setStroke(new BasicStroke(lineWidth));
 		g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
 

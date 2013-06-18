@@ -50,17 +50,16 @@ public class OptiesPanel extends JPanel {
 		this.knopjes = knopjesenabled;
 		canvas = theCanvas;
 
-		setBackground(Color.black);
 		setPreferredSize(new Dimension(450, canvas.getHeight()));
 
-		this.setLayout(new GridLayout(3, 1));
+		this.setLayout(new GridLayout(0, 1));
 
 		initColorPicker();
 		if (knopjesenabled) {
 			this.add(new SliderPanel());
 		}
+		this.add(new TimerPanel());
 		
-
 	}
 
 	private void initColorPicker() {
@@ -68,11 +67,9 @@ public class OptiesPanel extends JPanel {
 		colorPicker = new JColorChooser();
 		PreviewPanel pp = new PreviewPanel();
 		colorPicker.getSelectionModel().addChangeListener(pp);
-		if (knopjes) {
-			colorPicker.setPreviewPanel(pp);
-		} else {
-			colorPicker.setPreviewPanel(null);
-		}
+
+		colorPicker.setPreviewPanel(pp);
+
 		boolean skipped = false;
 		for (AbstractColorChooserPanel panel : colorPicker.getChooserPanels()) {
 			if (!skipped) {
@@ -121,8 +118,10 @@ public class OptiesPanel extends JPanel {
 
 			add(label);
 			add(block);
-			add(knopjeFill);
-			add(knopjeLijn);
+			if (knopjes) {
+				add(knopjeFill);
+				add(knopjeLijn);
+			}
 		}
 
 		/*
