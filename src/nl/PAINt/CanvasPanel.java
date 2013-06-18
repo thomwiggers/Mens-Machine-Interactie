@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
@@ -19,6 +20,7 @@ import nl.PAINt.shapes.Line;
 import nl.PAINt.shapes.Rectangle;
 import nl.PAINt.shapes.RectangularShape;
 import nl.PAINt.shapes.Shape;
+import nl.PAINt.shapes.Text;
 import nl.PAINt.shapes.Triangle;
 
 import org.apache.log4j.Logger;
@@ -178,6 +180,10 @@ public class CanvasPanel extends JPanel {
 				logger.info("Currently drawing Line");
 				currentlyDrawing = new Line(arg0.getPoint(), arg0.getPoint());
 				break;
+			case TEXT:
+				logger.info("Currently drawing text");
+				currentlyDrawing = new Text(startPoint.x, startPoint.y, 0, 0, "[PLACEHOLDER]");
+				break;
 			case DELETE:
 			case MOVE:
 			case SELECT:
@@ -201,6 +207,11 @@ public class CanvasPanel extends JPanel {
 			logger.debug("Mouse released");
 			if (mode != PanelMode.TRIANGLE) {
 				currentlyDrawing.setSelectionBox(false);
+				if(currentlyDrawing instanceof Text){
+					String str = JOptionPane.showInputDialog(null, "Vul uw text in:", 
+							"", 1);
+					((Text) currentlyDrawing).setText(str);
+				}
 				currentlyDrawing = null;
 			} else if (currentlyDrawing != null) {
 				logger.info("second triangle phase entered");
