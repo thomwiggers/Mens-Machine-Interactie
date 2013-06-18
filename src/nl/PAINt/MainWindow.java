@@ -17,7 +17,7 @@ public class MainWindow extends JFrame {
 	private OptiesPanel optiesPanel;
 	WaitPanel wpanel;
 	private Logger logger;
-	private boolean jemoeder = true;
+	private boolean jemoeder = false;
 
 
 
@@ -46,7 +46,6 @@ public class MainWindow extends JFrame {
 		this.optiesPanel = new OptiesPanel(canvas, jemoeder);
 
 		new MessageServer(this);
-		connected();
 	}
 
 	public CanvasPanel getCanvas() {
