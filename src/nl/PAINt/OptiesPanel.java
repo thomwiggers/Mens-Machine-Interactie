@@ -10,10 +10,15 @@ package nl.PAINt;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
@@ -110,12 +115,34 @@ public class OptiesPanel extends JPanel {
 			label.setVisible(true);
 			this.block = new JPanel();
 			block.setSize(80, 80);
-			block.setBackground(colorPicker.getColor());
+			block.setBackground(Color.black);
 
-			JButton knopjeFill = new JButton("Gebruik als Fill");
+			ImageIcon icon = new ImageIcon("resources/kleur_fill.png");
+			Image img = icon.getImage();
+			BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 50, 50, 50,50, null);
+			ImageIcon newIcon = new ImageIcon(bi);
+			
+			JButton knopjeFill = new JButton("", newIcon);
 			knopjeFill.setActionCommand("FILL");
 			knopjeFill.addActionListener(this);
-			JButton knopjeLijn = new JButton("Gebruik als Lijn");
+			
+			icon = new ImageIcon("resources/kleur_lijn.png");
+			img = icon.getImage();
+			bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 50, 50, 50,50, null);
+			newIcon = new ImageIcon(bi);
+			JButton knopjeLijn = new JButton("", newIcon);
 			knopjeLijn.setActionCommand("LIJN");
 			knopjeLijn.addActionListener(this);
 
@@ -185,8 +212,19 @@ public class OptiesPanel extends JPanel {
 			lijnDikte.addChangeListener(this);
 
 			this.add(lijnDikte);
+			
+			ImageIcon icon = new ImageIcon("resources/layer_up.png");
+			Image img = icon.getImage();
+			BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 35, 35, 80,80, null);
+			ImageIcon newIcon = new ImageIcon(bi);
 
-			JButton knopvooruit = new JButton("haal naar voren");
+			JButton knopvooruit = new JButton("", newIcon);
 			knopvooruit.setActionCommand("z-index+");
 			knopvooruit.addActionListener(new ActionListener() {
 				
@@ -196,8 +234,19 @@ public class OptiesPanel extends JPanel {
 					canvas.moveSelectedBackward();
 				}
 			});
+			
+			icon = new ImageIcon("resources/layer_down.png");
+			img = icon.getImage();
+			bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 35, 35, 80,80, null);
+			newIcon = new ImageIcon(bi);
 
-			JButton knopachteruit = new JButton("haal naar achteren");
+			JButton knopachteruit = new JButton("", newIcon);
 			knopachteruit.setActionCommand("z-index-");
 			knopachteruit.addActionListener(new ActionListener() {
 				
@@ -208,7 +257,18 @@ public class OptiesPanel extends JPanel {
 				}
 			});
 			
-			JButton knopFill = new JButton("toggle fill");
+			icon = new ImageIcon("resources/fill.png");
+			img = icon.getImage();
+			bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 35, 35, 80,80, null);
+			newIcon = new ImageIcon(bi);
+			
+			JButton knopFill = new JButton("", newIcon);
 			knopFill.addActionListener(new ActionListener() {
 				
 				@Override
@@ -218,8 +278,19 @@ public class OptiesPanel extends JPanel {
 					
 				}
 			});
+			
+			icon = new ImageIcon("resources/delete.png");
+			img = icon.getImage();
+			bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			g = bi.createGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				    RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+		    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+			g.drawImage(img, 35, 35, 80,80, null);
+			newIcon = new ImageIcon(bi);
 
-			JButton deleteKnopje = new JButton("Delete");
+			JButton deleteKnopje = new JButton("", newIcon);
 			deleteKnopje.addActionListener(new ActionListener() {
 				
 				@Override
