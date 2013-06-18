@@ -18,7 +18,6 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -241,7 +240,6 @@ public class MessageServer {
 		public StreamWriter(BufferedWriter outputWriter, BlockingQueue<String> queue) {
 			writer = outputWriter;
 			this.queue = queue;
-			logger.setLevel(Level.ALL);
 		}
 
 		/*
