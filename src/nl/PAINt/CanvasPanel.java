@@ -599,8 +599,6 @@ public class CanvasPanel extends JPanel {
 	}
 
 	public void repaint() {
-		if (logger != null)
-			logger.debug("Repainting");
 		super.repaint();
 	}
 }
