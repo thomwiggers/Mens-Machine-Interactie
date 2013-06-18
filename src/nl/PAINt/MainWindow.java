@@ -51,6 +51,7 @@ public class MainWindow extends JFrame {
 		this.optiesPanel = new OptiesPanel(canvas, jemoeder);
 
 		new MessageServer(this);
+		this.connected();
 
 	}
 

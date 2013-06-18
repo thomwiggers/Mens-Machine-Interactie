@@ -342,8 +342,12 @@ public class CanvasPanel extends JPanel {
 
 		@Override
 		public void mouseClicked(final MouseEvent arg0) {
-			if(arg0.getClickCount()==2){
-	            // your code here
+			if(arg0.getClickCount()==2 && selected != null && selected instanceof Text){
+				String str = JOptionPane.showInputDialog(null, "Vul uw text in:", 
+						"", 1);
+				((Text) selected).setText(str);
+				
+				CanvasPanel.this.repaint();
 	        }
 		}
 

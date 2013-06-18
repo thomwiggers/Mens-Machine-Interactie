@@ -2,16 +2,12 @@ package nl.PAINt.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import javax.swing.JLabel;
-
 import nl.PAINt.PanelMode;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 public class Text extends RectangularShape {
