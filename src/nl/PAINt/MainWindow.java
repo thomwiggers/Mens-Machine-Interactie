@@ -25,6 +25,8 @@ public class MainWindow extends JFrame {
 	private Logger logger;
 	private boolean jemoeder = true;
 
+
+
 	public MainWindow() {
 
 		wpanel = new WaitPanel();
@@ -51,8 +53,7 @@ public class MainWindow extends JFrame {
 		this.optiesPanel = new OptiesPanel(canvas, jemoeder);
 
 		new MessageServer(this);
-		this.connected();
-
+		connected();
 	}
 
 	public CanvasPanel getCanvas() {
@@ -65,6 +66,8 @@ public class MainWindow extends JFrame {
 		logger.info("Started Logging");
 
 		logger.debug("initialising GUI");
+
+		TimerPanel.reset();
 
 		if (jemoeder) {
 			add(knopjes, BorderLayout.WEST);
