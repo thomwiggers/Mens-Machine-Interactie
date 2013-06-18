@@ -60,7 +60,7 @@ public class Text extends RectangularShape {
 		FontMetrics textMetrics = g2d.getFontMetrics(textFont);  
 		g2d.setFont(textFont);  
 		
-		Rectangle2D r2d = new Rectangle2D.Double(x, y+2, textMetrics.stringWidth(text), textMetrics.getHeight());
+		Rectangle2D r2d = new Rectangle2D.Double(x-3, y+5, textMetrics.stringWidth(text)+6, textMetrics.getHeight());
 		g2d.setPaint(Color.BLACK);
 		final float dash[] = { 7.0f };
 		g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
@@ -75,7 +75,7 @@ public class Text extends RectangularShape {
 		FontMetrics textMetrics = lastg2d.getFontMetrics(textFont);  
 		lastg2d.setFont(textFont);  
 		
-		Rectangle2D r2d = new Rectangle2D.Double(x, y+2, textMetrics.stringWidth(text), textMetrics.getHeight());
+		Rectangle2D r2d = new Rectangle2D.Double(x-3, y+5, textMetrics.stringWidth(text)+6, textMetrics.getHeight());
 		return r2d.contains(point);
 	}
 
