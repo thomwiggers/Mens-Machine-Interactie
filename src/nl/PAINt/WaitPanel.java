@@ -39,7 +39,7 @@ public class WaitPanel extends JPanel {
 			    RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 	    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		g.drawImage(img, 50, 50, 50,50, null);
+		g.drawImage(img, 50, 50, 50, 50, null);
 		ImageIcon newIcon = new ImageIcon(bi);
 		
 		JLabel logo = new JLabel(icon);

@@ -11,7 +11,7 @@ import nl.PAINt.PanelMode;
 import java.awt.geom.Rectangle2D;
 
 public class Text extends RectangularShape {
-	String text;
+	String text = "NULL";
 	Graphics2D lastg2d;
 
 	public Text(double x, double y, double width, double height, String text) {
